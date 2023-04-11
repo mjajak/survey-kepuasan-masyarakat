@@ -21,10 +21,11 @@ class KuesionerController extends Controller
 
     public function ptsp()
     {
-        $questions = $this->pertanyaanService->getAllPertanyaan();
+        // $questions = $this->pertanyaanService->getAllPertanyaan();
+        $pertanyaan = Pertanyaan::with('jawaban')->get();
 
         return view('kuesioner.index', [
-            'questions' => $questions,
+            'questions' => $pertanyaan,
             'namalayanan' => 'Pelayanan Terpadu Satu Pintu (PTSP)',
             'id_layanan' => 1
         ]);

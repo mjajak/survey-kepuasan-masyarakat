@@ -131,7 +131,7 @@
         let kuesionerData = $('#form-isi-survey').serialize();
 
         $.ajax({
-            url: "{{ url('kuesioner/add-kuesioner') }}",
+            url: "{{ url('isi-survey/add-kuesioner') }}",
             type: 'post',
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'

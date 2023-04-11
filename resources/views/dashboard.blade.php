@@ -21,7 +21,9 @@
 @endsection
 
 @section('content')
+
 <div class="row">
+    <h1> Daftar Unit Layanan</h1>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
         <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
@@ -37,9 +39,12 @@
                     </svg>
                 </div>
                 <div>
-                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">AK-1</h5>
-                    <h4 class="mb-0 fw-bold text-muted">{{ $total_ak1 }}</h4>
-                    <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    <a href="{{ url('/isi-survey/ptsp') }}">
+                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Terpadu Satu Pintu
+                            (PTSP)</h5>
+                        <h4 class="mb-0 fw-bold text-muted">{{ $total_ak1 }}</h4>
+                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -59,9 +64,14 @@
                     </svg>
                 </div>
                 <div>
-                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Rekom Passport</h5>
-                    <h4 class="mb-0 fw-bold text-muted">{{ $total_rekom_passport }}</h4>
-                    <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    <a href="{{ url('/isi-survey/plhut') }}">
+                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pusat Layanan Haji dan Umrah
+                            Terpadu
+                            (PLHUT)
+                        </h5>
+                        <h4 class="mb-0 fw-bold text-muted">{{ $total_rekom_passport }}</h4>
+                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -81,14 +91,16 @@
                     </svg>
                 </div>
                 <div>
-                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelatihan</h5>
-                    <h4 class="mb-0 fw-bold text-muted">{{ $total_pelatihan }}</h4>
-                    <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    <a href="{{ url('/isi-survey/mpp') }}">
+                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Gerai Mall Pelayanan Publik (MPP)
+                        </h5>
+                        <h4 class="mb-0 fw-bold text-muted">{{ $total_pelatihan }}</h4>
+                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    </a>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
         <div class="card" onclick="fiterByLayanan(4)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
@@ -104,9 +116,12 @@
                     </svg>
                 </div>
                 <div>
-                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">LPK</h5>
-                    <h4 class="mb-0 fw-bold text-muted">{{ $total_lpk }}</h4>
-                    <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    <a href="{{ url('/isi-survey/wa-center') }}">
+                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Layanan Online (Whatsapp Center)
+                        </h5>
+                        <h4 class="mb-0 fw-bold text-muted">{{ $total_lpk }}</h4>
+                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -126,31 +141,12 @@
                     </svg>
                 </div>
                 <div>
-                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pencatatan Perusahaan</h5>
-                    <h4 class="mb-0 fw-bold text-muted">{{ $total_perusahaan }}</h4>
-                    <p class="mb-0 text-muted">Mengikuti Survey</p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(6)" style="cursor: pointer;">
-            <div class="card-body d-flex align-items-center" style="height: 120px;">
-                <div class="me-3 text-primary">
-                    <svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="color: #4e563b;">
-                        <path opacity="0.4"
-                            d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                            fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                            fill="currentColor"></path>
-                    </svg>
-                </div>
-                <div>
-                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Perselisihan Hubungan Industrial</h5>
-                    <h4 class="mb-0 fw-bold text-muted">{{ $total_hub_intl }}</h4>
-                    <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    <a href="{{ url('/isi-survey/haji-online') }}">
+                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Informasi Haji Online
+                        </h5>
+                        <h4 class="mb-0 fw-bold text-muted">{{ $total_perusahaan }}</h4>
+                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                    </a>
                 </div>
             </div>
         </div>
@@ -173,7 +169,8 @@
                         </div>
                         <div class="px-3 py-2 rounded" style="width: 205px; background-color: #d8ddfa;">
                             <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Bulan Sebelumnya :</h5>
-                            <h4 class="mb-0 fw-bold text-muted" id="total_bulan_sebelumnya">{{ $total_bulan_sebelumnya
+                            <h4 class="mb-0 fw-bold text-muted" id="total_bulan_sebelumnya">{{
+                                $total_bulan_sebelumnya
                                 }}</h4>
                         </div>
                     </div>
@@ -192,64 +189,6 @@
     </div>
 </div>
 
-<div class="row mt-5 mb-5">
-    <div class="col-12 mb-4">
-        <h2 class="text-center">Daftar Unit Layanan</h2>
-        <p class="text-center" id="layanan">Pilih Layanan Yang Akan Dinilai</p>
-    </div>
-
-    <div class="col-xl-4 col-lg-4 col-md-6 col-xs-12">
-        <a href="{{ url('/isi-survey/ptsp') }}">
-            <div class="card card-body layanan bg-warning">
-                <div class="text-center">
-                    <div class="fw-bold fs-5 mt-2 text-center text-dark">
-                        Pelayanan Terpadu Satu Pintu (PTSP)
-                    </div>
-                </div>
-        </a>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-6 col-xs-12">
-        <a href="{{ url('/isi-survey/plhut') }}">
-            <div class="card card-body layanan">
-                <div class="text-center">
-                    <div class="fw-bold fs-5 mt-2 text-center text-dark">
-                        Pusat Layanan Haji dan Umrah Terpadu (PLHUT)
-                    </div>
-                </div>
-        </a>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-6 col-xs-12">
-        <a href="{{ url('/isi-survey/mpp') }}">
-            <div class="card card-body layanan bg-success">
-                <div class="text-center">
-                    <div class="fw-bold fs-5 mt-2 text-center text-dark">
-                        Gerai Mall Pelayanan Publik (MPP)
-                    </div>
-                </div>
-        </a>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-6 col-xs-12">
-        <a href="{{ url('/isi-survey/wa-center') }}">
-            <div class="card card-body layanan">
-                <div class="text-center">
-                    <div class="fw-bold fs-5 mt-2 text-center text-dark">
-                        Layanan Online (Whatsapp Center)
-                    </div>
-                </div>
-        </a>
-    </div>
-    <div class="col-xl-4 col-lg-4 col-md-6 col-xs-12">
-        <a href="{{ url('/isi-survey/haji-online') }}">
-            <div class="card card-body layanan bg-info">
-                <div class="text-center">
-                    <div class="fw-bold fs-5 mt-2 text-center text-dark">
-                        Pelayanan Informasi Haji Online
-                    </div>
-                </div>
-        </a>
-    </div>
-
-</div>
 @endsection
 
 @section('script')
@@ -288,7 +227,7 @@ var options = {
         },
         xaxis: {
             show: false,
-            categories: ["AK1", "Rekom Passport", "Pelatihan", "LPK", "Pencatatan Perusahaan", "Perselisihan Hub Industrial"]
+            categories: ["PTSP", "PLHUT", "MPP", "WA Center", "Info Haji Online"]
         },
 
         // tooltip: {

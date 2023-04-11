@@ -13,4 +13,9 @@ class Jawaban extends Model
     protected $guarded = [];
 
     public $timestamps = false;
+
+    public function pertanyaan()
+    {
+        return $this->belongsTo(Pertanyaan::class, 'id_pertanyaan');
+    }
 }

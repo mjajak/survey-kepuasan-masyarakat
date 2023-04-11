@@ -1,5 +1,5 @@
 <div hidden id="survey-question">
-    
+
     <form method="post" id="form-isi-survey">
         <div class="row">
             <div class="col-12">
@@ -51,27 +51,50 @@
                 </div> --}}
 
 
-                <div class="mt-5 mb-4">
+                {{-- <div class="mt-5 mb-4">
                     @foreach($questions as $q => $question)
-                        <div class="mb-4">
-                            <div>{{ $question->no_urut }}. {{ $question->pertanyaan }}</div>
-                            <div class="mt-2 soal">
-                                @foreach ($question->answers as $a => $answer)
-                                    <div class="form-check mb-2">
-                                        <input class="form-check-input answer" type="radio" name="answers[{{$question->id}}]" id="answer{{$answer->id}}{{$question->id}}" value="{{$question->id}}_{{$answer->id}}">
-                                        <label class="form-check-label" for="answer{{$answer->id}}{{$question->id}}">
-                                            {{ $answer->kode }}. {{ $answer->jawaban }}
-                                        </label>
-                                    </div>
-                                @endforeach
+
+                    <div class="mb-4">
+                        <div>{{ $question->no_urut }}. {{ $question->pertanyaan }}</div>
+                        <div class="mt-2 soal">
+                            @foreach ($question->answers as $a => $answer)
+                            <div class="form-check mb-2">
+                                <input class="form-check-input answer" type="radio" name="answers[{{$question->id}}]"
+                                    id="answer_{{$question->id}}_{{$answer->id}}"
+                                    value="{{$question->id}}_{{$answer->id}}">
+                                <label class="form-check-label" for="answer_{{$question->id}}_{{$answer->id}}">
+                                    {{ $answer->kode }}. {{ $answer->jawaban }}
+                                </label>
                             </div>
+                            @endforeach
+
                         </div>
+                    </div>
+                    @endforeach
+                </div> --}}
+                <div class="mt-5 mb-4">
+                    @foreach ($questions as $q)
+                    <div class="mb-4">
+                        <div>{{ $q->no_urut }}. {{ $q->pertanyaan }}</div>
+                    </div>
+
+                    @foreach ($q->jawaban as $j)
+                    <div class="form-check mb-2">
+                        <input class="form-check-input answer" type="radio" name="answers[{{$q->id}}]"
+                            id="answer_{{$q->id}}_{{$j->id}}" value="{{$q->id}}_{{$j->id}}">
+                        <label class="form-check-label" for="answer_{{$q->id}}_{{$j->id}}">
+                            {{ $j->kode }}. {{ $j->jawaban }}
+                        </label>
+                    </div>
+                    @endforeach
                     @endforeach
                 </div>
 
+
+
                 {{-- <div class="mb-4">
                     <label class="col-form-label">Isi Saran : </label>
-                    <textarea name="saran" id="saran"rows="5" class="form-control"></textarea>
+                    <textarea name="saran" id="saran" rows="5" class="form-control"></textarea>
                 </div> --}}
 
                 <button type="submit" class="btn btn-primary">Submit</button>
