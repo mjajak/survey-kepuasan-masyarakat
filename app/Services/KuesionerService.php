@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -17,17 +17,16 @@ final class KuesionerService implements KuesionerContract
         $pendidikan,
         $pekerjaan,
         $no_hp,
-        $nik,
+        $usia,
         $id_layanan,
-    )
-    {
+    ) {
         $responden = Responden::create([
-            'nama_responden' => $nama_responden, 
-            'jenis_kelamin' => $jenis_kelamin, 
-            'pendidikan' => $pendidikan, 
-            'pekerjaan' => $pekerjaan, 
-            'no_hp' => $no_hp, 
-            'nik' => $nik,
+            'nama_responden' => $nama_responden,
+            'jenis_kelamin' => $jenis_kelamin,
+            'pendidikan' => $pendidikan,
+            'pekerjaan' => $pekerjaan,
+            'no_hp' => $no_hp,
+            'usia' => $usia,
             'id_layanan' => $id_layanan
         ]);
 
@@ -38,8 +37,7 @@ final class KuesionerService implements KuesionerContract
         $id_responden,
         $id_layanan,
         array $answers
-    ) 
-    {
+    ) {
         $data_insert = [];
         $now = date('Y-m-d H:i:s');
 
@@ -88,36 +86,36 @@ final class KuesionerService implements KuesionerContract
         $search = request()->search;
         $layanan = request()->layanan;
         $nilai = request()->nilai;
-        $limit = request('length') ? intval(request('length')) : 10; // param => length 
-        $offset = request('start') ? intval(request('start')) : 0; // param => start 
+        $limit = request('length') ? intval(request('length')) : 10; // param => length
+        $offset = request('start') ? intval(request('start')) : 0; // param => start
 
-        $query = "SELECT 
+        $query = "SELECT
                     a.id,
                     a.nama_responden,
                     a.no_hp,
                     a.nik,
-                    l.namalayanan, 
+                    l.namalayanan,
                     AVG(c.nilai) AS avg_nilai,
                     a.created_at,
-                    CASE 
+                    CASE
                         WHEN avg(c.nilai) < 2 THEN 'Sangat Buruk'
                         WHEN avg(c.nilai) >= 2 AND avg(c.nilai) <= 2.5 THEN 'Buruk'
                         WHEN avg(c.nilai) > 2.5 AND avg(c.nilai) < 3 THEN 'Cukup'
                         WHEN avg(c.nilai) >= 3 AND avg(c.nilai) < 3.6 THEN 'Baik'
                         ELSE 'Sangat Baik'
                     END AS nilai
-                FROM tbl_responden a 
+                FROM tbl_responden a
                 INNER JOIN tbl_kuesioner b ON a.id = b.id_responden
                 INNER JOIN tbl_layanan l ON l.id = a.id_layanan
-                INNER JOIN tbl_jawaban c ON b.id_jawaban = c.id 
+                INNER JOIN tbl_jawaban c ON b.id_jawaban = c.id
                 WHERE true ";
 
-        // TOTAL 
-        $queryTotal = "SELECT 
+        // TOTAL
+        $queryTotal = "SELECT
                             a.id
-                        FROM tbl_responden a 
+                        FROM tbl_responden a
                         INNER JOIN tbl_kuesioner b ON a.id = b.id_responden
-                        INNER JOIN tbl_jawaban c ON b.id_jawaban = c.id 
+                        INNER JOIN tbl_jawaban c ON b.id_jawaban = c.id
                         WHERE true ";
 
         if ($date_from && $date_to) {
@@ -134,7 +132,7 @@ final class KuesionerService implements KuesionerContract
         // }
 
         $query .= " GROUP BY a.id, a.id_layanan, a.nama_responden, a.no_hp, a.nik, l.namalayanan, a.created_at, nilai";
-        
+
         if ($nilai && $nilai != '') {
             if ($nilai === 'sangat_buruk') {
                 $query .= " HAVING avg(c.nilai) < 2 ";
@@ -161,14 +159,13 @@ final class KuesionerService implements KuesionerContract
             'data' => $dataList,
             'total' => count($dataTotal),
         ];
-        
     }
 
     public function findRespondenById($id)
     {
         return Responden::with(['layanan', 'kuesioners'])
-                ->where('id', $id)
-                ->first(); 
+            ->where('id', $id)
+            ->first();
     }
 
     public function updateKuesionerByRespondenId($id_responden, array $answers)
@@ -193,7 +190,7 @@ final class KuesionerService implements KuesionerContract
     public function getDataExcelExport($date_from = null, $date_to = null, $jenis_layanan = null)
     {
         $query = "
-            SELECT 
+            SELECT
                 a.id AS id_responden,
                 b.id_pertanyaan,
                 c.nilai,
@@ -202,25 +199,25 @@ final class KuesionerService implements KuesionerContract
             JOIN tbl_kuesioner b ON b.id_responden = a.id
             JOIN tbl_jawaban c ON b.id_jawaban = c.id
             JOIN tbl_pertanyaan d ON b.id_pertanyaan = d.id
-            WHERE 
+            WHERE
                 a.id is NOT NULL
         ";
 
         if (
-            $date_from != null && $date_from != '-' 
+            $date_from != null && $date_from != '-'
             && $date_to != null && $date_to != '-'
         ) {
             $date_from_format = date('Y-m-d', strtotime($date_from));
             $date_to_format = date('Y-m-d', strtotime($date_to));
 
-            $query .= " 
+            $query .= "
                 AND DATE(a.created_at) BETWEEN '$date_from_format' AND '$date_to_format'
             ";
         }
 
         if ($jenis_layanan != null && $jenis_layanan != '') {
-            $query .= " 
-                AND a.id_layanan = $jenis_layanan 
+            $query .= "
+                AND a.id_layanan = $jenis_layanan
             ";
         }
 

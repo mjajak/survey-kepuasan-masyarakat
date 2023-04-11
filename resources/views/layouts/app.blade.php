@@ -1,63 +1,67 @@
 <!doctype html>
 <html lang="en" dir="ltr">
-  <head>
+
+<head>
     <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>SKM</title>
-      
-      <!-- Favicon -->
-      <link rel="shortcut icon" type="image/png" href="{{ asset('logobaru.png') }}" />
-      
-      <!-- Library / Plugin Css Build -->
-      <link rel="stylesheet" href="{{ asset('assets/css/core/libs.min.css') }}" />
-      
-      <!-- Aos Animation Css -->
-      <link rel="stylesheet" href="{{ asset('assets/vendor/aos/dist/aos.css') }}" />
-      
-      <!-- Hope Ui Design System Css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/mycustom.css?v=1.0.3') }}" />
-      
-      <!-- Custom Css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/custom.min.css?v=1.2.0') }}" />
-      
-      <!-- Customizer Css -->
-      <link rel="stylesheet" href="{{ asset('assets/css/customizer.min.css') }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>SKM</title>
 
-      <link rel="stylesheet" href="{{ asset('assets/js/sweetalert/sweetalert2.min.css') }}">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/png" href="{{ asset('logo_kemenag.svg') }}" />
 
-      <style>
-        html, body { 
+    <!-- Library / Plugin Css Build -->
+    <link rel="stylesheet" href="{{ asset('assets/css/core/libs.min.css') }}" />
+
+    <!-- Aos Animation Css -->
+    <link rel="stylesheet" href="{{ asset('assets/vendor/aos/dist/aos.css') }}" />
+
+    <!-- Hope Ui Design System Css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/mycustom.css?v=1.0.3') }}" />
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.min.css?v=1.2.0') }}" />
+
+    <!-- Customizer Css -->
+    <link rel="stylesheet" href="{{ asset('assets/css/customizer.min.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('assets/js/sweetalert/sweetalert2.min.css') }}">
+
+    <style>
+        html,
+        body {
             color: #2f3036;
         }
+
         .sidebar-default .sidebar-list .navbar-nav .nav-item .nav-link:not(.disabled) {
             display: flex;
             white-space: normal;
         }
-      </style>
-      
-      @yield('css')
-  </head>
-  <body class="  ">
+    </style>
+
+    @yield('css')
+</head>
+
+<body class="  ">
     <!-- loader Start -->
     <div id="loading">
         <div class="loader simple-loader">
             <div class="loader-body"></div>
-        </div>    
+        </div>
     </div>
     <!-- loader END -->
-    
+
     @include('layouts.sidebar')
-      
+
     <main class="main-content">
-      <div class="position-relative">
+        <div class="position-relative">
 
-        @include('layouts.navbar')
+            @include('layouts.navbar')
 
-      </div>
+        </div>
 
-      <div class="conatiner-fluid content-inner ">
-        @yield('content')
-      </div>
+        <div class="conatiner-fluid content-inner ">
+            @yield('content')
+        </div>
 
     </main>
     <!-- Wrapper End-->
@@ -71,11 +75,12 @@
 
     <script src="{{ asset('assets/js/sweetalert/sweetalert2@11.js') }}"></script>
 
-	{{-- <script src="{{ asset('assets/js/jquery-validation/jquery-validate.min.js') }}"></script> --}}
-	{{-- <script src="{{ asset('assets/js/jquery-validation/additional-methods.js') }}"></script> --}}
-	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    {{-- <script src="{{ asset('assets/js/jquery-validation/jquery-validate.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('assets/js/jquery-validation/additional-methods.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
     @yield('script')
-  </body>
+</body>
+
 </html>

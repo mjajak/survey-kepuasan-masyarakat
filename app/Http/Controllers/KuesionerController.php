@@ -18,69 +18,59 @@ class KuesionerController extends Controller
         //
     }
 
-    public function ak1()
+
+    public function ptsp()
     {
         $questions = $this->pertanyaanService->getAllPertanyaan();
-        
+
         return view('kuesioner.index', [
             'questions' => $questions,
-            'namalayanan' => 'AK1',
+            'namalayanan' => 'Pelayanan Terpadu Satu Pintu (PTSP)',
             'id_layanan' => 1
         ]);
     }
 
-    public function rekomPassport()
+    public function plhut()
     {
         $questions = $this->pertanyaanService->getAllPertanyaan();
-        
+
         return view('kuesioner.index', [
             'questions' => $questions,
-            'namalayanan' => 'Rekom Passport',
+            'namalayanan' => 'Pusat Layanan Haji dan Umrah Terpadu (PLHUT)',
             'id_layanan' => 2
         ]);
     }
 
-    public function pelatihan()
+    public function mpp()
     {
         $questions = $this->pertanyaanService->getAllPertanyaan();
-        
+
         return view('kuesioner.index', [
             'questions' => $questions,
-            'namalayanan' => 'Pelatihan',
+            'namalayanan' => 'Mall Pelayanan Publik (MPP)',
             'id_layanan' => 3
         ]);
     }
 
-    public function lpk()
+    public function onlineWaCenter()
     {
         $questions = $this->pertanyaanService->getAllPertanyaan();
-        
+
         return view('kuesioner.index', [
             'questions' => $questions,
-            'namalayanan' => 'LPK',
+            'namalayanan' => 'Layanan Online (Whatsapp Center)',
             'id_layanan' => 4
         ]);
     }
 
-    public function pencatatanPerusahaan()
+    public function onlinePlhut()
     {
         $questions = $this->pertanyaanService->getAllPertanyaan();
-        
-        return view('kuesioner.index', [
-            'questions' => $questions,
-            'namalayanan' => 'Pencatatan Perusahaan',
-            'id_layanan' => 5
-        ]);
-    }
 
-    public function perselisihanHubunganIndustrial()
-    {
-        $questions = $this->pertanyaanService->getAllPertanyaan();
-        
         return view('kuesioner.index', [
             'questions' => $questions,
-            'namalayanan' => 'Perselisihan Hubungan Industrial',
-            'id_layanan' => 6
+            'namalayanan' => 'Pelayanan Informasi Haji Online',
+            'id_layanan' => 5
         ]);
     }
 
@@ -89,7 +79,7 @@ class KuesionerController extends Controller
         $this->validate($request, [
             'nama_lengkap' => 'required|string',
             'jenis_kelamin' => 'required|string|in:1,2',
-            'nik' => 'required|numeric',
+            'usia' => 'required|numeric',
             'no_hp' => 'required|numeric',
             'pendidikan' => 'required|string',
             'pekerjaan' => 'required|string',
@@ -106,16 +96,16 @@ class KuesionerController extends Controller
                 $request->pendidikan,
                 $request->pekerjaan,
                 $request->no_hp,
-                $request->nik,
+                $request->usia,
                 $request->id_layanan
-            );   
+            );
 
             $add_kuesioner = $this->kuesionerService->addKuesioner(
                 $add_responden->id,
-                1, // 1 = layanan AK1 (tbl_layanan)
+                $add_responden->id_layanan,
                 $request->answers
             );
-            
+
             DB::commit();
 
             return response()->json([

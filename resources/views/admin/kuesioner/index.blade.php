@@ -1,7 +1,7 @@
 @extends('layouts.app-admin')
 
 @section('title')
-    Admin - Kuesioner
+Admin - Kuesioner
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@
                         <select name="layanan" id="layanan" class="form-select">
                             <option value="">ALL</option>
                             @foreach ($layanans as $layanan)
-                                <option value="{{ $layanan->id }}">{{ $layanan->namalayanan }}</option>
+                            <option value="{{ $layanan->id }}">{{ $layanan->namalayanan }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -30,15 +30,20 @@
                         <label class="col-form-label">Tanggal Survey</label>
                         <div class="d-flex align-items-center">
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="date_from" name="date_from" autocomplete="off">
-                                <div class="position-absolute" style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;" onclick="resetDateFrom()">
+                                <input type="text" class="form-control" id="date_from" name="date_from"
+                                    autocomplete="off">
+                                <div class="position-absolute"
+                                    style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;"
+                                    onclick="resetDateFrom()">
                                     x
                                 </div>
                             </div>
                             <div class="mx-3">s/d</div>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="date_to" name="date_to" autocomplete="off"> 
-                                <div class="position-absolute" style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;" onclick="resetDateTo()">
+                                <input type="text" class="form-control" id="date_to" name="date_to" autocomplete="off">
+                                <div class="position-absolute"
+                                    style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;"
+                                    onclick="resetDateTo()">
                                     x
                                 </div>
                             </div>
@@ -64,15 +69,6 @@
             <button type="button" class="btn btn-success" id="btn-export-excel" style="align-self: baseline;">
                 Export Excel
             </button>
-
-            {{-- <div style="max-width: 400px; width: 350px;" class="mb-3 position-relative">
-                <input type="text" class="form-control form-control-sm pe-5" name="search" placeholder="Cari Nama, NIK, No HP..." autocomplete="off" spellcheck="false">
-                <div class="position-absolute" style="top: 4px; right: 12px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16" color="#9196a1">
-                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                    </svg>
-                </div>
-            </div> --}}
         </div>
 
         <table id="table" class="table table-bordered table-hover" style="width: 100%;">
@@ -148,14 +144,14 @@
                     let urlDetail = '{{ url('admin/kuesioner') }}' + '/' + row.id;
                     return `
                         <div class="d-flex justify-content-center">
-                            <a 
+                            <a
                                 href="${urlDetail}"
-                                class="btn btn-sm btn-success d-flex" 
+                                class="btn btn-sm btn-success d-flex"
                             >
                                 Detail
-                            </a> 
-                        </div>    
-                    `; 
+                            </a>
+                        </div>
+                    `;
                 }},
                 {data: 'nama_responden', class: 'text-nowrap'},
                 {data: 'nilai', class: 'text-nowrap'},
@@ -165,7 +161,7 @@
                 {data: 'created_at', class: 'text-nowrap', render: function(data, type, row) {
                     return dateFormat(row.created_at);
                 }},
-                
+
             ],
             order: [[1, 'asc']],
             // pageLength: 2
@@ -178,12 +174,12 @@
 
         $('input[name=search]').on('keyup', debounce(() => fetchData(), 300));
 
-        
+
         $('#date_from, #date_to').datepicker('destroy').datepicker( {
             changeMonth: true,
             changeYear: true,
             dateFormat: 'dd-mm-yy',
-            onClose: function(dateText, inst) { 
+            onClose: function(dateText, inst) {
                 $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
             }
         });
@@ -236,13 +232,13 @@
                 },
                 error: function(xhr, stat, err) {
                     swal.close();
-                    
+
                     if (xhr.status == 400 || xhr.status == 404) {
                         Swal.fire('', 'Gagal mendownload file', 'warning');
                     }
                 }
             });
-            // end ajax 
+            // end ajax
         });
 
 
