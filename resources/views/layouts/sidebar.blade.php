@@ -7,8 +7,8 @@
                 <div style="font-size: 14px;" class="text-muted">KEMENAG SRAGEN</div>
             </div>
         </a>
-        {{-- <div class="sidebar-toggle" data-toggle="sidebar" data-active="true"> --}}
-            <div class="sidebar-toggle">
+        <div class="sidebar-toggle" data-toggle="sidebar" data-active="true">
+            {{-- <div class="sidebar-toggle"> --}}
                 <i class="icon">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M4.25 12.2744L19.25 12.2744" stroke="currentColor" stroke-width="1.5"

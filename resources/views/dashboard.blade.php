@@ -22,8 +22,9 @@
 
 @section('content')
 
+
 <div class="row">
-    <h1> Daftar Unit Layanan</h1>
+
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
         <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
