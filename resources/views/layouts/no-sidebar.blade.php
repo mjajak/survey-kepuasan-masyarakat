@@ -23,6 +23,7 @@
 
     <!-- Customizer Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/customizer.min.css') }}" />
+
     <style>
         html,
         body {

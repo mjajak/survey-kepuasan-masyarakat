@@ -9,39 +9,40 @@
 @endsection
 
 @section('title')
-    Admin - Pertanyaan
+Admin - Pertanyaan
 @endsection
 
 @section('content')
-   <div class="card">
-        <div class="card-header">
-            <h5 class="mb-0">Management Pertanyaan</h5>
-        </div>
-        <div class="card-body">
-            <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal" data-bs-target="#modal-add-pertanyaan">Tambah Pertanyaan</button>
+<div class="card">
+    <div class="card-header">
+        <h5 class="mb-0">Management Pertanyaan</h5>
+    </div>
+    <div class="card-body">
+        <button type="button" class="btn btn-primary mb-4" data-bs-toggle="modal"
+            data-bs-target="#modal-add-pertanyaan">Tambah Pertanyaan</button>
 
-            <table id="table" class="table table-bordered table-hover" style="width: 100%;">
-                <thead>
-                    <tr>
-                        <th class="text-nowrap text-center" style="width: 50px;">No</th>
-                        <th class="text-nowrap text-center" style="width: 100px;">Aksi</th>
-                        <th class="text-nowrap text-center">Unsur</th>
-                        <th class="text-nowrap text-center">No. Urut</th>
-                        <th class="text-nowrap text-center">Pertanyaan</th>
-                    </tr>
-                </thead>
-                <tbody>
+        <table id="table" class="table table-bordered table-hover" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th class="text-nowrap text-center" style="width: 50px;">No</th>
+                    <th class="text-nowrap text-center" style="width: 100px;">Aksi</th>
+                    <th class="text-nowrap text-center">Unsur</th>
+                    <th class="text-nowrap text-center">No. Urut</th>
+                    <th class="text-nowrap text-center">Pertanyaan</th>
+                </tr>
+            </thead>
+            <tbody>
 
-                </tbody>
-            </table>
-        </div>
-    </div> 
+            </tbody>
+        </table>
+    </div>
+</div>
 
 @endsection
 
 @section('modal')
-    @include('admin.pertanyaan.modal-edit')
-    @include('admin.pertanyaan.modal-add')
+@include('admin.pertanyaan.modal-edit')
+@include('admin.pertanyaan.modal-add')
 @endsection
 
 @section('script')
@@ -76,7 +77,7 @@
             error: function(xhr, stat, err) {
                 swal.close();
                 if (xhr.status == 500) {
-                    alertError(); 
+                    alertError();
                 }
             }
         });
@@ -114,7 +115,7 @@
             error: function(xhr, stat, err) {
                 swal.close();
                 if (xhr.status == 500) {
-                    alertError(); 
+                    alertError();
                 }
             }
         });
@@ -143,7 +144,7 @@
             error: function(xhr, stat, err) {
                 swal.close();
                 if (xhr.status == 500) {
-                    alertError(); 
+                    alertError();
                 }
             }
         });
@@ -166,7 +167,7 @@
             error: function(xhr, stat, err) {
                 swal.close();
                 if (xhr.status == 500) {
-                    alertError(); 
+                    alertError();
                 }
             }
         });
@@ -200,24 +201,24 @@
                 {"data": "action", "orderable": false, class: "text-center", render: function (data, type, row, meta) {
                     return `
                         <div class="d-flex justify-content-center">
-                            <button 
-                                type="button" 
-                                class="btn btn-sm btn-success btn-edit me-2 d-flex" 
-                                data-id="${row.id}" 
-                                data-pertanyaan="${row.pertanyaan}" 
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-success btn-edit me-2 d-flex"
+                                data-id="${row.id}"
+                                data-pertanyaan="${row.pertanyaan}"
                             >
                                 Ubah
-                            </button> 
-                            <button 
-                                type="button" 
-                                class="btn btn-sm btn-danger btn-delete d-flex" 
-                                data-id="${row.id}" 
-                                data-pertanyaan="${row.pertanyaan}" 
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-sm btn-danger btn-delete d-flex"
+                                data-id="${row.id}"
+                                data-pertanyaan="${row.pertanyaan}"
                             >
                                 Hapus
                             </button>
-                        </div>    
-                    `; 
+                        </div>
+                    `;
                 }},
                 {data: 'unsur', class: 'text-nowrap'},
                 {data: 'no_urut', class: 'text-nowrap'},
@@ -246,7 +247,7 @@
                  if (element.hasClass('jawaban')) {
                     error.insertBefore(element.parents('.div-jawaban'));
                 } else {
-                    error.insertAfter(element);   
+                    error.insertAfter(element);
                 }
             }
         });
@@ -358,7 +359,7 @@
             .catch(swal.noop);
 
         });
-        
+
     });
 </script>
 @endsection

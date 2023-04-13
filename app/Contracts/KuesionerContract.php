@@ -1,10 +1,10 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
 namespace App\Contracts;
 
-interface KuesionerContract 
+interface KuesionerContract
 {
     public function addResponden(
         $nama_responden,
@@ -21,6 +21,8 @@ interface KuesionerContract
         $id_layanan,
         array $answers
     );
+
+    public function getHasilSurveyTahun($year);
 
     public function getListPagination();
 

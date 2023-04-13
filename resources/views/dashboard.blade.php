@@ -153,6 +153,58 @@
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12 col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <table id="skm" class="table table-bordered table-hover" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th class="text-nowrap text-center" style="width: 50px;">No</th>
+                            <th class="text-nowrap text-center" style="width: 100px;">Unit Layanan</th>
+                            <th class="text-nowrap text-center">Periode</th>
+                            <th class="text-nowrap text-center">U1</th>
+                            <th class="text-nowrap text-center">U2</th>
+                            <th class="text-nowrap text-center">U3</th>
+                            <th class="text-nowrap text-center">U4</th>
+                            <th class="text-nowrap text-center">U5</th>
+                            <th class="text-nowrap text-center">U6</th>
+                            <th class="text-nowrap text-center">U7</th>
+                            <th class="text-nowrap text-center">U8</th>
+                            <th class="text-nowrap text-center">U9</th>
+                            <th class="text-nowrap text-center">SKM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (count($data_skm) > 0)
+                        @foreach ($data_skm as $item)
+                        <tr>
+                            <td>{{ $item->id_layanan }}</td>
+                            <td></td>
+                            <td>Triwulan {{ $item->triwulan }} Tahun {{ $item->tahun }}</td>
+                            <td>{{ number_format($item->U1) }}</td>
+                            <td>{{ number_format($item->U2)}}</td>
+                            <td>{{ number_format($item->U3)}}</td>
+                            <td>{{ number_format($item->U4)}}</td>
+                            <td>{{ number_format($item->U5)}}</td>
+                            <td>{{ number_format($item->U6)}}</td>
+                            <td>{{ number_format($item->U7)}}</td>
+                            <td>{{ number_format($item->U8)}}</td>
+                            <td>{{ number_format($item->U9)}}</td>
+                            <td>{{ number_format($item->nilai_skm,2)}}</td>
+                        </tr>
+                        @endforeach
+                        @else
+                        <tr>
+                            <td colspan="13" class="text-center">Tidak Ada Data</td>
+                        </tr>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-lg-12 col-sm-12">
@@ -190,6 +242,9 @@
     </div>
 </div>
 
+
+
+
 @endsection
 
 @section('script')
@@ -211,7 +266,7 @@ var options = {
         series:  [
                 {
                     name: 'Layanan',
-                    data: [0,0,0,0,0,0]
+                    data: [0,0,0,0,0]
                 },
             ],
         chart: {
@@ -224,7 +279,7 @@ var options = {
 
         stroke: {
             curve: 'smooth',
-            width: 1.5
+            width: 2
         },
         xaxis: {
             show: false,
@@ -242,7 +297,6 @@ var options = {
             "#d900ff",
             "#3a57e8",
             "#000480",
-            "#4e563b",
         ],
         fill: {
             colors: [
@@ -251,7 +305,6 @@ var options = {
                 "#d900ff",
                 "#3a57e8",
                 "#000480",
-                "#4e563b",
             ],
             gradient: {
                 opacityFrom: 0.6,
@@ -309,9 +362,42 @@ function fetchDataGraphic() {
         });
 }
 
+function fetchDataSKM() {
+  $('#skm').DataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+      "url": "{{ route('skm.get', ['year' => 2023]) }}",
+      "type": "GET",
+      "dataSrc": function (json) {
+        console.log(json); // log the response data
+        return json;
+      }
+    },
+    "columns": [
+      {"data": "No"},
+      {"data": "Unit Layanan"},
+      {"data": "Periode"},
+      {"data": "U1"},
+      {"data": "U2"},
+      {"data": "U3"},
+      {"data": "U4"},
+      {"data": "U5"},
+      {"data": "U6"},
+      {"data": "U7"},
+      {"data": "U8"},
+      {"data": "U9"},
+      {"data": "SKM"}
+    ]
+  });
+}
+
+
+
+
 $(document).ready(function() {
     chart.render();
-
+    fetchDataSKM();
     fetchDataGraphic();
 });
 

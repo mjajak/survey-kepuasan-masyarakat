@@ -1,5 +1,6 @@
 <?php
 
+use App\Contracts\KuesionerContract;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\DashboardController;
@@ -31,3 +32,10 @@ Route::prefix('isi-survey')->group(function () {
     Route::get('/haji-online', [KuesionerController::class, 'onlinePlhut']);
     Route::post('/add-kuesioner', [KuesionerController::class, 'store']);
 });
+
+// Route::post('/get-skm/{year}', [KuesionerContract::class, 'getHasilSurveyTahun'])->name('skm.post');
+
+
+
+
+Route::get('/get-skm/{year}', [KuesionerContract::class, 'getHasilSurveyTahun'])->name('skm.get');

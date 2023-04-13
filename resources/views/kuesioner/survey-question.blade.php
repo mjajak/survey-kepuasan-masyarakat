@@ -73,22 +73,30 @@
                     @endforeach
                 </div> --}}
                 <div class="mt-5 mb-4">
-                    @foreach ($questions as $q)
-                    <div class="mb-4">
-                        <div>{{ $q->no_urut }}. {{ $q->pertanyaan }}</div>
-                    </div>
-
-                    @foreach ($q->jawaban as $j)
-                    <div class="form-check mb-2">
-                        <input class="form-check-input answer" type="radio" name="answers[{{$q->id}}]"
-                            id="answer_{{$q->id}}_{{$j->id}}" value="{{$q->id}}_{{$j->id}}">
-                        <label class="form-check-label" for="answer_{{$q->id}}_{{$j->id}}">
-                            {{ $j->kode }}. {{ $j->jawaban }}
-                        </label>
-                    </div>
-                    @endforeach
-                    @endforeach
+                    <ol>
+                        @foreach ($questions as $q)
+                        <div class="mb-4">
+                            <div style="font-weight: bold;">
+                                <li>
+                                    (Unsur ke {{ $q->no_urut }}) - {{ $q->pertanyaan }}
+                                </li>
+                            </div>
+                            @foreach ($q->jawaban as $j)
+                            <div class="form-check mb-2">
+                                <input class="form-check-input answer" type="radio" name="answers[{{$q->id}}]"
+                                    id="answer_{{$q->id}}_{{$j->id}}" value="{{$q->id}}_{{$j->id}}_{{$j->nilai}}">
+                                <label class="form-check-label" for="answer_{{$q->id}}_{{$j->id}}">
+                                    <img src="{{ asset('assets/images/emoji/'.($j->nilai).'.png') }}"
+                                        alt="{{ $j->kode }}" height="24" width="24">
+                                    {{ $j->jawaban }}
+                                </label>
+                            </div>
+                            @endforeach
+                        </div>
+                        @endforeach
+                    </ol>
                 </div>
+
 
 
 

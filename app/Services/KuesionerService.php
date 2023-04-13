@@ -8,6 +8,7 @@ use App\Models\Kuesioner;
 use App\Models\Responden;
 use Illuminate\Support\Facades\DB;
 use App\Contracts\KuesionerContract;
+use App\Models\HasilSurvey;
 
 final class KuesionerService implements KuesionerContract
 {
@@ -45,12 +46,14 @@ final class KuesionerService implements KuesionerContract
             $explode_answer = explode('_', $answer);
             $id_pertanyaan = $explode_answer[0];
             $id_jawaban = $explode_answer[1];
+            $penilaian = $explode_answer[2];
 
             $data_insert[] = [
                 'id_responden' => $id_responden,
                 'id_layanan' => $id_layanan,
                 'id_pertanyaan' => $id_pertanyaan,
                 'id_jawaban' => $id_jawaban,
+                'penilaian' =>   $penilaian,
                 'created_at' => $now
             ];
         }
@@ -222,5 +225,11 @@ final class KuesionerService implements KuesionerContract
         }
 
         return DB::select($query);
+    }
+
+    public function getHasilSurveyTahun($year): array
+    {
+        //Kembalikan nilai dari Model HasilSurvey
+        return HasilSurvey::getHasilSurveyTahun($year)->toArray();
     }
 }
