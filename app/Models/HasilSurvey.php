@@ -14,7 +14,7 @@ class HasilSurvey extends Model
     {
         $query = DB::table('v_hasil_survey')
             ->select([
-                'id_layanan',
+                'id_layanan', 'namalayanan',
                 DB::raw('QUARTER(created_at) AS triwulan'),
                 DB::raw('YEAR(created_at) AS tahun'),
                 DB::raw('AVG(CASE WHEN unsur = "U1" THEN penilaian END) AS U1'),

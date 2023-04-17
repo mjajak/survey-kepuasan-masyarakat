@@ -19,7 +19,7 @@ final class DashboardController extends Controller
         $total_pelatihan = DB::table('tbl_responden')->where('id_layanan', 3)->count();
         $total_lpk = DB::table('tbl_responden')->where('id_layanan', 4)->count();
         $total_perusahaan = DB::table('tbl_responden')->where('id_layanan', 5)->count();
-        $total_hub_intl = DB::table('tbl_responden')->where('id_layanan', 6)->count();
+
 
         $bln_sebelum_1 = date('m', strtotime('now -1 month'));
         $thn_sebelum_1 = date('Y', strtotime('now -1 month'));
@@ -48,7 +48,7 @@ final class DashboardController extends Controller
             ->where('id_layanan', 1)
             ->count();
 
-        $total_mengikuti_survey = $total_ak1 + $total_rekom_passport + $total_pelatihan + $total_lpk + $total_perusahaan + $total_hub_intl;
+        $total_mengikuti_survey = $total_ak1 + $total_rekom_passport + $total_pelatihan + $total_lpk + $total_perusahaan;
 
         $data_dashboard = [
             'show_logo' => 'show',
@@ -57,7 +57,6 @@ final class DashboardController extends Controller
             'total_pelatihan' => number_format($total_pelatihan),
             'total_lpk' => number_format($total_lpk),
             'total_perusahaan' => number_format($total_perusahaan),
-            'total_hub_intl' => number_format($total_hub_intl),
             'total_bulan_ini' => number_format($total_bulan_ini),
             'total_bulan_sebelumnya' => number_format($total_bulan_sebelumnya),
             'total_mengikuti_survey' => number_format($total_mengikuti_survey),
@@ -73,17 +72,16 @@ final class DashboardController extends Controller
         $tgl_awal_bulan_ini = date('Y-m') . '-01';
         $tgl_now = date('Y-m-d');
 
-        $total_ak1 = DB::table('tbl_responden')->where('id_layanan', 1)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
-        $total_rekom_passport = DB::table('tbl_responden')->where('id_layanan', 2)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
-        $total_pelatihan = DB::table('tbl_responden')->where('id_layanan', 3)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
-        $total_lpk = DB::table('tbl_responden')->where('id_layanan', 4)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
-        $total_perusahaan = DB::table('tbl_responden')->where('id_layanan', 5)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
-        $total_hub_intl = DB::table('tbl_responden')->where('id_layanan', 6)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
+        $unit1 = DB::table('tbl_responden')->where('id_layanan', 1)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
+        $unit2 = DB::table('tbl_responden')->where('id_layanan', 2)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
+        $unit3 = DB::table('tbl_responden')->where('id_layanan', 3)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
+        $unit4 = DB::table('tbl_responden')->where('id_layanan', 4)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
+        $unit5 = DB::table('tbl_responden')->where('id_layanan', 5)->whereBetween(DB::raw('DATE(created_at)'), [$tgl_awal_bulan_ini, $tgl_now])->count();
 
         $data_series = [
             [
                 'name' => 'Jumlah',
-                'data' => [$total_ak1, $total_rekom_passport, $total_pelatihan, $total_lpk, $total_perusahaan]
+                'data' => [$unit1, $unit2, $unit3, $unit4, $unit5]
 
             ],
 

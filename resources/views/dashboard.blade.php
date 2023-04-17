@@ -157,50 +157,139 @@
     <div class="col-lg-12 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <table id="skm" class="table table-bordered table-hover" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th class="text-nowrap text-center" style="width: 50px;">No</th>
-                            <th class="text-nowrap text-center" style="width: 100px;">Unit Layanan</th>
-                            <th class="text-nowrap text-center">Periode</th>
-                            <th class="text-nowrap text-center">U1</th>
-                            <th class="text-nowrap text-center">U2</th>
-                            <th class="text-nowrap text-center">U3</th>
-                            <th class="text-nowrap text-center">U4</th>
-                            <th class="text-nowrap text-center">U5</th>
-                            <th class="text-nowrap text-center">U6</th>
-                            <th class="text-nowrap text-center">U7</th>
-                            <th class="text-nowrap text-center">U8</th>
-                            <th class="text-nowrap text-center">U9</th>
-                            <th class="text-nowrap text-center">SKM</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (count($data_skm) > 0)
-                        @foreach ($data_skm as $item)
-                        <tr>
-                            <td>{{ $item->id_layanan }}</td>
-                            <td></td>
-                            <td>Triwulan {{ $item->triwulan }} Tahun {{ $item->tahun }}</td>
-                            <td>{{ number_format($item->U1) }}</td>
-                            <td>{{ number_format($item->U2)}}</td>
-                            <td>{{ number_format($item->U3)}}</td>
-                            <td>{{ number_format($item->U4)}}</td>
-                            <td>{{ number_format($item->U5)}}</td>
-                            <td>{{ number_format($item->U6)}}</td>
-                            <td>{{ number_format($item->U7)}}</td>
-                            <td>{{ number_format($item->U8)}}</td>
-                            <td>{{ number_format($item->U9)}}</td>
-                            <td>{{ number_format($item->nilai_skm,2)}}</td>
-                        </tr>
-                        @endforeach
-                        @else
-                        <tr>
-                            <td colspan="13" class="text-center">Tidak Ada Data</td>
-                        </tr>
-                        @endif
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+
+                    <table id="skm" class="table table-bordered table-hover" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th class="text-nowrap text-center" style="width: 50px;">No</th>
+                                <th class="text-nowrap text-center" style="width: 100px;">Unit Layanan</th>
+                                <th class="text-nowrap text-center">Periode</th>
+                                <th class="text-nowrap text-center">SKM</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (count($data_skm) > 0)
+                            @foreach ($data_skm as $item)
+                            <tr>
+                                <td>{{ $item->id_layanan }}</td>
+                                <td>{{ $item->namalayanan }}</td>
+                                <td>Triwulan {{ $item->triwulan }} Tahun {{ $item->tahun }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#skmModal{{$item->id_layanan}}" style="width: 100%">
+                                        {{ number_format($item->nilai_skm, 2) }}
+                                    </button>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="skmModal{{$item->id_layanan}}" tabindex="-1"
+                                        role="dialog" aria-labelledby="skmModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="skmModalLabel">
+                                                        Detail SKM<br>
+                                                        {{$item->namalayanan }}
+                                                    </h5>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-bordered"
+                                                            style="table-layout: auto; width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th align="center">ID</th>
+                                                                    <th align="center">Nama Unsur</th>
+                                                                    <th align="center">Nilai</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center">[U1]</td>
+                                                                    <td>Persyaratan</td>
+                                                                    <td align="center">{{ number_format($item->U1, 2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U2]</td>
+                                                                    <td>Sistem, Mekanisme, dan Prosedur</td>
+                                                                    <td align="center">{{ number_format($item->U2, 2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U3]</td>
+                                                                    <td>Waktu Penyelesaian</td>
+                                                                    <td align="center">{{ number_format($item->U3, 2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U4]</td>
+                                                                    <td>Biaya/Tarif</td>
+                                                                    <td align="center">{{ number_format($item->U4,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U5]</td>
+                                                                    <td>Produk Spesifikasi Jenis Pelayanan</td>
+                                                                    <td align="center">{{ number_format($item->U5,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U6]</td>
+                                                                    <td>Kompetensi Pelaksana</td>
+                                                                    <td align="center">{{ number_format($item->U6,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U7]</td>
+                                                                    <td>Perilaku Pelaksana</td>
+                                                                    <td align="center">{{ number_format($item->U7,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U8]</td>
+                                                                    <td>Sarana dan prasarana</td>
+                                                                    <td align="center">{{ number_format($item->U8,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td align="center">[U9]</td>
+                                                                    <td>Penanganan Pengaduan, Saran<br>dan Masukan
+                                                                    </td>
+                                                                    <td align="center">{{ number_format($item->U9,2) }}
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                        data-target="#skmModal{{$item->id_layanan}}"
+                                                        onclick="closeModal()">Close</button>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                            <tr>
+                                <td colspan="13" class="text-center">Tidak Ada Data</td>
+                            </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -362,44 +451,29 @@ function fetchDataGraphic() {
         });
 }
 
-function fetchDataSKM() {
-  $('#skm').DataTable({
-    "processing": true,
-    "serverSide": true,
-    "ajax": {
-      "url": "{{ route('skm.get', ['year' => 2023]) }}",
-      "type": "GET",
-      "dataSrc": function (json) {
-        console.log(json); // log the response data
-        return json;
-      }
-    },
-    "columns": [
-      {"data": "No"},
-      {"data": "Unit Layanan"},
-      {"data": "Periode"},
-      {"data": "U1"},
-      {"data": "U2"},
-      {"data": "U3"},
-      {"data": "U4"},
-      {"data": "U5"},
-      {"data": "U6"},
-      {"data": "U7"},
-      {"data": "U8"},
-      {"data": "U9"},
-      {"data": "SKM"}
-    ]
-  });
-}
-
 
 
 
 $(document).ready(function() {
     chart.render();
-    fetchDataSKM();
     fetchDataGraphic();
+    $('button[data-target^="#skmModal"]').on('click', function() {
+            var target = $(this).attr('data-target');
+            $(target).modal('show');
+        });
+    $('button[data-target^="#skmModal"]').on('click', function() {
+        var target = $(this).attr('data-target');
+            $(target).modal('hide');
+    });
+
 });
+
+
+ $(document).ready(function(){
+
+});
+
+
 
 
 </script>
