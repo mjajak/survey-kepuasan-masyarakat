@@ -15,19 +15,17 @@ final class KuesionerService implements KuesionerContract
     public function addResponden(
         $nama_responden,
         $jenis_kelamin,
+        $usia,
         $pendidikan,
         $pekerjaan,
-        $no_hp,
-        $usia,
         $id_layanan,
     ) {
         $responden = Responden::create([
             'nama_responden' => $nama_responden,
             'jenis_kelamin' => $jenis_kelamin,
+            'usia' => $usia,
             'pendidikan' => $pendidikan,
             'pekerjaan' => $pekerjaan,
-            'no_hp' => $no_hp,
-            'usia' => $usia,
             'id_layanan' => $id_layanan
         ]);
 
@@ -57,7 +55,7 @@ final class KuesionerService implements KuesionerContract
                 'created_at' => $now
             ];
         }
-
+        // dd($data_insert);
         // lebih baik gunakan query builder untuk performa lebih baik
         Kuesioner::insert($data_insert);
     }

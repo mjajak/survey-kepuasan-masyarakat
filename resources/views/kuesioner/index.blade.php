@@ -69,7 +69,7 @@
                         <div class="col-lg-6 col-sm-12">
                             <div class="mb-3">
                                 <label class="col-form-label">Nama Lengkap</label>
-                                <input type="text" name="nama_lengkap" id="nama_lengkap" class="form-control"
+                                <input type="text" name="nama_responden" id="nama_responden" class="form-control"
                                     placeholder="Masukkan Nama Lengkap" maxlength="50">
                             </div>
                             <div class="mb-3">
@@ -81,25 +81,39 @@
                             </div>
                             <div class="mb-3">
                                 <label class="col-form-label">Usia</label>
-                                <input type="text" name="usia" id="usia" class="form-control"
-                                    placeholder="Masukkan Usia" maxlength="2" minlength="2">
+                                <select name="usia" id="pendidikan" class="form-control">
+                                    <option value="">Pilih Kategori Usia</option>
+                                    @foreach ($kategori_usia_list as $usia)
+                                    <option value="{{ $usia->id }}">{{ $usia->kategori }}
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-sm-12">
-                            <div class="mb-3">
+                            {{-- <div class="mb-3">
                                 <label class="col-form-label">No. HP</label>
                                 <input type="text" name="no_hp" id="no_hp" class="form-control"
                                     placeholder="Masukkan Nomor Handphone" maxlength="16">
-                            </div>
+                            </div> --}}
                             <div class="mb-3">
                                 <label class="col-form-label">Pendidikan</label>
-                                <input type="text" name="pendidikan" id="pendidikan" class="form-control"
-                                    placeholder="Masukkan Pendidikan" maxlength="100">
+                                <select name="pendidikan" id="pendidikan" class="form-control">
+                                    <option value="">Pilih Pendidikan</option>
+                                    @foreach ($kategori_pendidikan_list as $pendidikan)
+                                    <option value="{{ $pendidikan->id }}">{{ $pendidikan->keterangan }}</option>
+                                    @endforeach
+                                </select>
                             </div>
+
                             <div class="mb-3">
                                 <label class="col-form-label">Pekerjaan</label>
-                                <input type="text" name="pekerjaan" id="pekerjaan" class="form-control"
-                                    placeholder="Masukkan Pekerjaan" maxlength="50">
+                                <select name="pekerjaan" id="pekerjaan" class="form-control">
+                                    @foreach($kategori_pekerjaan_list as $kategori_pekerjaan)
+                                    <option value="{{ $kategori_pekerjaan->id }}">{{
+                                        $kategori_pekerjaan->nama_pekerjaan }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -129,6 +143,10 @@
     function addKuesioner() {
         let respondenData = $('#form-isi-data').serialize();
         let kuesionerData = $('#form-isi-survey').serialize();
+
+        console.log(respondenData);
+        console.log(kuesionerData);
+        console.log($('#id_layanan').val());
 
         $.ajax({
             url: "{{ url('isi-survey/add-kuesioner') }}",

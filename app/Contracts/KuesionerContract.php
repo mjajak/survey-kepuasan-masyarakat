@@ -9,10 +9,9 @@ interface KuesionerContract
     public function addResponden(
         $nama_responden,
         $jenis_kelamin,
+        $usia,
         $pendidikan,
         $pekerjaan,
-        $no_hp,
-        $nik,
         $id_layanan,
     );
 
