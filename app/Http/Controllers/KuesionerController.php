@@ -73,9 +73,9 @@ class KuesionerController extends Controller
         $this->validate($request, [
             'nama_responden' => 'required|string',
             'jenis_kelamin' => 'required|string|in:1,2',
-            'usia' => 'required',
-            'pendidikan' => 'required',
-            'pekerjaan' => 'required',
+            'usia' => 'required|numeric',
+            'pendidikan' => 'required|numeric',
+            'pekerjaan' => 'required|numeric',
             'answers' => 'required|array',
             'id_layanan' => 'required|numeric'
         ]);

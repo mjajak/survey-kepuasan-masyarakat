@@ -240,63 +240,52 @@
                 $("#survey-question").prop('hidden', false);
             },
             rules: {
-                nama_lengkap: {
+                nama_responden: {
                     required: true,
-                    minlength: 3,
+                    minlength: 4,
                     maxlength: 50
                 },
                 jenis_kelamin: {
-                    required: true
-                },
-                nik: {
                     required: true,
                     digits: true,
-                    minlength: 16,
-                    maxlength: 16
-                },
-                no_hp: {
-                    required: true,
-                    digits: true,
-                    minlength: 10,
-                    maxlength: 16
+                    range: [1, 2]
                 },
                 pendidikan: {
                     required: true,
-                    maxlength: 100
+                    digits: true,
+                    minlength: 1,
+                    maxlength: 2
                 },
                 pekerjaan: {
                     required: true,
-                    maxlength: 50
+                    digits: true,
+                    minlength: 1,
+                    maxlength: 2
+                },
+                usia: {
+                    required: true,
+                    digits: true,
+                    minlength: 1,
+                    maxlength: 2
                 }
             },
             messages: {
-                nama_lengkap: {
+                nama_responden: {
                     required: 'Harap isi nama lengkap',
-                    minlength: 'Nama lengkap minimal 3 karakter',
+                    minlength: 'Nama lengkap minimal 4 karakter',
                     maxlength: 'Nama lengkap minimal 50 karakter'
                 },
                 jenis_kelamin: {
                     required: 'Harap pilih jenis kelamin'
                 },
-                nik: {
-                    required: 'Harap isi nik',
-                    digits: 'Harap isi nik dengan digit',
-                    minlength: 'Nik minimal 16 karakter',
-                    maxlength: 'Nik maksimal 16 karakter'
-                },
-                no_hp: {
-                    required: 'Harap isi nomor handphone',
-                    digits: 'Harap isi nomor handphone dengan digit',
-                    minlength: 'Nomor handphone minimal 10 karakter',
-                    maxlength: 'Nomor handphone maksimal 16 karakter'
-                },
                 pendidikan: {
-                    required: 'Harap isi pendidikan',
-                    maxlength: 'Pendidikan maksimal 100 karakter'
+                    required: 'Harap isi pendidikan'
                 },
                 pekerjaan: {
-                    required: 'Harap isi pekerjaan',
-                    maxlength: 'Pekerjaan maksimal 50 karakter'
+                    required: 'Harap isi pekerjaan'
+                },
+                usia: {
+                    required: 'Harap pilih kategori usia'
                 }
             }
         });
