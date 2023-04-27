@@ -1,5 +1,7 @@
-<?php 
+<?php
 
+
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\JawabanController;
 use App\Http\Controllers\Admin\LayananController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -26,7 +28,7 @@ Route::group(['prefix' => 'pertanyaan'], function () {
     Route::get('/', [PertanyaanController::class, 'index']);
     Route::get('/{id}', [PertanyaanController::class, 'show']);
     Route::post('/', [PertanyaanController::class, 'store']);
-    Route::put('/{id}', [PertanyaanController::class, 'update']); 
+    Route::put('/{id}', [PertanyaanController::class, 'update']);
     Route::post('/get-list', [PertanyaanController::class, 'getList']);
     Route::delete('/{id}', [PertanyaanController::class, 'destroy']);
 });
@@ -47,5 +49,5 @@ Route::group(['prefix' => 'kuesioner'], function () {
     Route::post('/export-excel', [KuesionerController::class, 'exportExcel']);
 });
 
-// Admin only 
+// Admin only
 Route::get('kuesioner-admin', [KuesionerController::class, 'adminOnly']);

@@ -40,6 +40,4 @@ Route::prefix('isi-survey')->group(function () {
     Route::post('/add-kuesioner', [KuesionerController::class, 'store']);
 });
 
-
-
 Route::get('/get-skm/{year}', [KuesionerContract::class, 'getHasilSurveyTahun'])->name('skm.get');

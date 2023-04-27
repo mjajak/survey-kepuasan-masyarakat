@@ -62,26 +62,6 @@ final class KuesionerService implements KuesionerContract
 
     public function getListPagination()
     {
-        // $length = request('length') ? intval(request('length')) : 10;
-
-        // return Responden::with(['layanan'])
-        //     ->when(request('search') && request('search') != '', function($query) {
-        //         return $query->where(DB::raw('lower(nama_responden)'), 'like', '%'. strtolower(request('search')) .'%')
-        //                     ->orWhere('nik', 'like', '%'. request('search') .'%')
-        //                     ->orWhere('no_hp', 'like', '%'. request('search') .'%');
-        //     })
-        //     ->when(request('layanan') && request('layanan') != '', function($query) {
-        //         return $query->where('id_layanan', request('layanan'));
-        //     })
-        //     ->when(request('date_from') && request('date_to'), function($query) {
-        //         $from = date('Y-m-d', strtotime(request('date_from')));
-        //         $to = date('Y-m-d', strtotime(request('date_to')));
-
-        //         return $query->whereBetween(DB::raw('DATE(created_at)'), [$from, $to]);
-        //     })
-        //     ->paginate($length)
-        //     ->toArray();
-
         $date_from = request()->date_from ? date('Y-m-d', strtotime(str_replace('/', '-', request()->date_from))) : null;
         $date_to = request()->date_to ? date('Y-m-d', strtotime(str_replace('/', '-', request()->date_to))) : null;
         $search = request()->search;
@@ -93,8 +73,6 @@ final class KuesionerService implements KuesionerContract
         $query = "SELECT
                     a.id,
                     a.nama_responden,
-                    a.no_hp,
-                    a.nik,
                     l.namalayanan,
                     AVG(c.nilai) AS avg_nilai,
                     a.created_at,
@@ -132,7 +110,7 @@ final class KuesionerService implements KuesionerContract
 
         // }
 
-        $query .= " GROUP BY a.id, a.id_layanan, a.nama_responden, a.no_hp, a.nik, l.namalayanan, a.created_at, nilai";
+        $query .= " GROUP BY a.id, a.id_layanan, a.nama_responden, l.namalayanan, a.created_at, nilai";
 
         if ($nilai && $nilai != '') {
             if ($nilai === 'sangat_buruk') {

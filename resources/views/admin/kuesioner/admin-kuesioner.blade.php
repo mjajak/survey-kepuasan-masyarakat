@@ -1,7 +1,7 @@
 @extends('layouts.app-admin')
 
 @section('title')
-    Admin - Kuesioner
+Admin - Kuesioner
 @endsection
 
 @section('content')
@@ -22,7 +22,7 @@
                         <select name="layanan" id="layanan" class="form-select">
                             <option value="">ALL</option>
                             @foreach ($layanans as $layanan)
-                                <option value="{{ $layanan->id }}">{{ $layanan->namalayanan }}</option>
+                            <option value="{{ $layanan->id }}">{{ $layanan->namalayanan }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -30,15 +30,20 @@
                         <label class="col-form-label">Tanggal Survey</label>
                         <div class="d-flex align-items-center">
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="date_from" name="date_from" autocomplete="off">
-                                <div class="position-absolute" style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;" onclick="resetDateFrom()">
+                                <input type="text" class="form-control" id="date_from" name="date_from"
+                                    autocomplete="off">
+                                <div class="position-absolute"
+                                    style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;"
+                                    onclick="resetDateFrom()">
                                     x
                                 </div>
                             </div>
                             <div class="mx-3">s/d</div>
                             <div class="position-relative">
-                                <input type="text" class="form-control" id="date_to" name="date_to" autocomplete="off"> 
-                                <div class="position-absolute" style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;" onclick="resetDateTo()">
+                                <input type="text" class="form-control" id="date_to" name="date_to" autocomplete="off">
+                                <div class="position-absolute"
+                                    style="font-weight: 500; top: 6px; right: 12px; cursor: pointer; font-size: 18px; font-family: monospace; color: #9196a1;"
+                                    onclick="resetDateTo()">
                                     x
                                 </div>
                             </div>
@@ -72,8 +77,6 @@
                     <th class="text-nowrap text-center" style="width: 50px;">No</th>
                     <th class="text-nowrap text-center">Nama</th>
                     <th class="text-nowrap text-center">Nilai</th>
-                    <th class="text-nowrap text-center">NIK</th>
-                    <th class="text-nowrap text-center">No HP</th>
                     <th class="text-nowrap text-center">Layanan</th>
                     <th class="text-nowrap text-center">Tanggal Survey</th>
                 </tr>
@@ -136,13 +139,11 @@
                 }},
                 {data: 'nama_responden', class: 'text-nowrap'},
                 {data: 'nilai', class: 'text-nowrap'},
-                {data: 'nik', class: 'text-nowrap'},
-                {data: 'no_hp', class: 'text-nowrap'},
                 {data: 'namalayanan', class: 'text-nowrap'},
                 {data: 'tanggal_survey', class: 'text-nowrap', render: function(data, type, row) {
                     return dateFormat(row.created_at);
                 }},
-                
+
             ],
             order: [[1, 'asc']],
         }).columns.adjust();
@@ -154,12 +155,12 @@
 
         $('input[name=search]').on('keyup', debounce(() => fetchData(), 300));
 
-        
+
         $('#date_from, #date_to').datepicker('destroy').datepicker( {
             changeMonth: true,
             changeYear: true,
             dateFormat: 'dd-mm-yy',
-            onClose: function(dateText, inst) { 
+            onClose: function(dateText, inst) {
                 $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, inst.selectedDay));
             }
         });
@@ -212,13 +213,13 @@
                 },
                 error: function(xhr, stat, err) {
                     swal.close();
-                    
+
                     if (xhr.status == 400 || xhr.status == 404) {
                         Swal.fire('', 'Gagal mendownload file', 'warning');
                     }
                 }
             });
-            // end ajax 
+            // end ajax
         });
 
 

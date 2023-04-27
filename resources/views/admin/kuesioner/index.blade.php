@@ -78,7 +78,6 @@ Admin - Kuesioner
                     <th class="text-nowrap text-center" style="width: 100px;">Aksi</th>
                     <th class="text-nowrap text-center">Nama</th>
                     <th class="text-nowrap text-center">Nilai</th>
-                    <th class="text-nowrap text-center">NIK</th>
                     <th class="text-nowrap text-center">No HP</th>
                     <th class="text-nowrap text-center">Layanan</th>
                     <th class="text-nowrap text-center">Tanggal Survey</th>
