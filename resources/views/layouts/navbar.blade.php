@@ -45,9 +45,9 @@
                     Logout
                 </a>
                 @else
-                <a href="{{ url('login') }}" class="btn btn-primary">
+                {{-- <a href="{{ url('login') }}" class="btn btn-primary">
                     Login
-                </a>
+                </a> --}}
                 @endif
             </div>
 

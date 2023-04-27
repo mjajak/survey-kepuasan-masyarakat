@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('username');
             $table->string('name');
             $table->string('password');
-            $table->string('role')->default(1); // 1 = Admin, 2 Not Admin atau apalah
+            $table->string('role')->default(1);
+            // 1 = Admin, 2 Not Admin atau apalah
             $table->timestamps();
         });
     }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -12,7 +12,8 @@ final class PertanyaanService implements PertanyaanContract
 {
     public function getAllPertanyaan() // tanpa pagination
     {
-        return Pertanyaan::with('answers')->orderBy('no_urut')->get();
+        // return Pertanyaan::with('answers')->orderBy('no_urut')->get();
+        return Pertanyaan::orderBy('no_urut')->get();
     }
 
     public function getListPagination()
@@ -62,11 +63,11 @@ final class PertanyaanService implements PertanyaanContract
     public function updatePertanyaanById($pertanyaan_id, $pertanyaan, $unsur, $no_urut)
     {
         return Pertanyaan::where('id', $pertanyaan_id)
-                ->update([
-                    'no_urut' => $no_urut,
-                    'pertanyaan' => $pertanyaan,
-                    'unsur' => $unsur
-                ]);
+            ->update([
+                'no_urut' => $no_urut,
+                'pertanyaan' => $pertanyaan,
+                'unsur' => $unsur
+            ]);
     }
 
     public function updateJawaban($pertanyaan_id, array $jawabans)
@@ -80,7 +81,7 @@ final class PertanyaanService implements PertanyaanContract
             $data_insert[] = [
                 'pertanyaan_id' => $pertanyaan_id,
                 'jawaban_id' => $jawaban
-            ];            
+            ];
         }
 
         DB::table('pertanyaan_jawaban')->insert($data_insert);
@@ -94,7 +95,7 @@ final class PertanyaanService implements PertanyaanContract
     public function deletePertanyaanJawaban($pertanyaan_id)
     {
         return DB::table('pertanyaan_jawaban')
-                ->where('pertanyaan_id', $pertanyaan_id)
-                ->delete();
+            ->where('pertanyaan_id', $pertanyaan_id)
+            ->delete();
     }
 }

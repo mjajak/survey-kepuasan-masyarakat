@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use App\Models\Jawaban;
+
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use App\Models\Jawaban;
 
 class Pertanyaan extends Model
 {

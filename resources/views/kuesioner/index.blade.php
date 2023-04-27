@@ -187,15 +187,7 @@
     $(document).ready(function() {
         const modal = new bootstrap.Modal('#modal-isi-survey');
 
-        // $(window).scroll(function(){
-		// 	if ($(this).scrollTop() > 100) {
-		// 		$('#scroll-down').fadeIn();
-		// 	} else {
-		// 		$('#scroll-down').fadeOut();
-		// 	}
-		// });
-
-		$('#scroll-down').click(function(){
+ 		$('#scroll-down').click(function(){
             console.log($(document).height())
 			$('html, body').animate({scrollTop : $(document).height()}, 350);
 			return false;
