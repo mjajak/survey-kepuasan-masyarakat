@@ -20,7 +20,6 @@ final class DashboardController extends Controller
         $total_lpk = DB::table('tbl_responden')->where('id_layanan', 4)->count();
         $total_perusahaan = DB::table('tbl_responden')->where('id_layanan', 5)->count();
 
-
         $bln_sebelum_1 = date('m', strtotime('now -1 month'));
         $thn_sebelum_1 = date('Y', strtotime('now -1 month'));
         $total_day_before = cal_days_in_month(CAL_GREGORIAN, date('m', strtotime('now -1 month')), date('Y', strtotime('now -1 month')));
@@ -29,9 +28,6 @@ final class DashboardController extends Controller
         $date_to_format = $thn_sebelum_1 . '-' . $bln_sebelum_1 . '-' .  $total_day_before;
 
         $total_bulan_sebelumnya = DB::table('tbl_responden')
-            // ->whereBetween(DB::raw('DATE(created_at)'), [
-            //     $thn_sebelum_1 . '-'. $bln_sebelum_1 . '-01',
-            //     $thn_sebelum_1 . '-'. $bln_sebelum_1 . '-' .  $total_day_before])
             ->whereRaw("DATE(created_at) BETWEEN '$date_from_format' AND '$date_to_format'")
             ->where('id_layanan', 1)
             ->count();
@@ -40,10 +36,6 @@ final class DashboardController extends Controller
         $bulan_ini_to = date('Y-m-d');
 
         $total_bulan_ini = DB::table('tbl_responden')
-            // ->whereBetween(DB::raw('DATE(created_at)'), [
-            //     date('Y-m') . '-01',
-            //     date('Y-m-d')
-            // ])
             ->whereRaw("DATE(created_at) BETWEEN '$bulan_ini_from' AND '$bulan_ini_to'")
             ->where('id_layanan', 1)
             ->count();
@@ -52,11 +44,11 @@ final class DashboardController extends Controller
 
         $data_dashboard = [
             'show_logo' => 'show',
-            'total_ak1' => number_format($total_ak1),
-            'total_rekom_passport' => number_format($total_rekom_passport),
-            'total_pelatihan' => number_format($total_pelatihan),
-            'total_lpk' => number_format($total_lpk),
-            'total_perusahaan' => number_format($total_perusahaan),
+            'total_unit1' => number_format($total_ak1),
+            'total_unit2' => number_format($total_rekom_passport),
+            'total_unit3' => number_format($total_pelatihan),
+            'total_unit4' => number_format($total_lpk),
+            'total_unit5' => number_format($total_perusahaan),
             'total_bulan_ini' => number_format($total_bulan_ini),
             'total_bulan_sebelumnya' => number_format($total_bulan_sebelumnya),
             'total_mengikuti_survey' => number_format($total_mengikuti_survey),
@@ -64,6 +56,13 @@ final class DashboardController extends Controller
         ];
 
         return view('dashboard', $data_dashboard);
+    }
+
+    public function riwayat()
+    {
+        $data_skm['data_skm'] =
+            HasilSurvey::getHasilSurveyTahun('2023')->toArray();
+        return view('riwayatskm', $data_skm);
     }
 
     public function dataGrafikBar(): JsonResponse
@@ -87,10 +86,6 @@ final class DashboardController extends Controller
 
         ];
 
-        //     return $data_series;
-        // });
-
-        // return response()->json($data_grafik);
         return response()->json($data_series);
     }
 
@@ -104,9 +99,6 @@ final class DashboardController extends Controller
         $date_to_format = $thn_sebelum_1 . '-' . $bln_sebelum_1 . '-' .  $total_day_before;
 
         $total_bulan_sebelumnya = DB::table('tbl_responden')
-            // ->whereBetween(DB::raw('DATE(created_at)'), [
-            //     $thn_sebelum_1 . '-'. $bln_sebelum_1 . '-01',
-            //     $thn_sebelum_1 . '-'. $bln_sebelum_1 . '-' .  $total_day_before])
             ->whereRaw("DATE(created_at) BETWEEN '$date_from_format' AND '$date_to_format'")
             ->where('id_layanan', $id_layanan)
             ->count();
@@ -115,10 +107,6 @@ final class DashboardController extends Controller
         $bulan_ini_to = date('Y-m-d');
 
         $total_bulan_ini = DB::table('tbl_responden')
-            // ->whereBetween(DB::raw('DATE(created_at)'), [
-            //     date('Y-m') . '-01',
-            //     date('Y-m-d')
-            // ])
             ->whereRaw("DATE(created_at) BETWEEN '$bulan_ini_from' AND '$bulan_ini_to'")
             ->where('id_layanan', $id_layanan)
             ->count();

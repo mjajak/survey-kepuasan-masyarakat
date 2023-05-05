@@ -23,6 +23,8 @@ interface KuesionerContract
 
     public function getHasilSurveyTahun($year);
 
+    // public function getHasilSKM($year);
+
     public function getListPagination();
 
     public function findRespondenById($id);

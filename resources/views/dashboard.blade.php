@@ -23,169 +23,256 @@
 @section('content')
 
 
-<div class="row">
 
+
+
+
+<div class="row">
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
         <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="color: red;">
-                        <path opacity="0.4"
-                            d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                            fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                            fill="currentColor"></path>
-                    </svg>
-                </div>
-                <div>
                     <a href="{{ url('/isi-survey/ptsp') }}">
-                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Terpadu Satu Pintu
-                            (PTSP)</h5>
-                        <h4 class="mb-0 fw-bold text-muted">{{ $total_ak1 }}</h4>
-                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                        <button type="button"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
+                            Isi Survei
+                        </button>
                     </a>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Terpadu Satu Pintu
+                        (PTSP)
+                    </h5>
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>Rating star</title>
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+
+                        @php
+                        function getFilteredData($data_skm, $currentTriwulan, $currentYear, $id_layanan) {
+                        return collect($data_skm)->firstWhere(function ($item) use ($currentTriwulan, $currentYear,
+                        $id_layanan) {
+                        return $item->triwulan === $currentTriwulan && $item->tahun === $currentYear &&
+                        $item->id_layanan === $id_layanan;
+                        });
+                        }
+
+                        $currentTriwulan = intval(ceil(date('n') / 3));
+                        $currentYear = intval(date('Y'));
+
+                        @endphp
+
+                        <!-- Usage for id_layanan = 1 -->
+                        @php
+                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 1);
+                        @endphp
+                        <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                        </p>
+
+                        <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                        <a href="#"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
+                            $total_unit1 }}
+                            Ulasan</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(2)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="color: #0bdd43;">
-                        <path opacity="0.4"
-                            d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                            fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                            fill="currentColor"></path>
-                    </svg>
+                    <a href="{{ url('/isi-survey/ptsp') }}">
+                        <button type="button"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
+                            Isi Survei
+                        </button>
+                    </a>
                 </div>
                 <div>
-                    <a href="{{ url('/isi-survey/plhut') }}">
-                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pusat Layanan Haji dan Umrah
-                            Terpadu
-                            (PLHUT)
-                        </h5>
-                        <h4 class="mb-0 fw-bold text-muted">{{ $total_rekom_passport }}</h4>
-                        <p class="mb-0 text-muted">Mengikuti Survey</p>
-                    </a>
+                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pusat Layanan Haji dan Umrah Terpadu (PLHUT)
+                    </h5>
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>Rating star</title>
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                        <!-- Usage for id_layanan = 2 -->
+                        @php
+                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 2);
+                        @endphp
+                        <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                        </p>
+                        <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                        <a href="#"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
+                            $total_unit2 }}
+                            Ulasan</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(3)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="color: #d900ff;">
-                        <path opacity="0.4"
-                            d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                            fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                            fill="currentColor"></path>
-                    </svg>
+                    <a href="{{ url('/isi-survey/ptsp') }}">
+                        <button type="button"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
+                            Isi Survei
+                        </button>
+                    </a>
                 </div>
                 <div>
-                    <a href="{{ url('/isi-survey/mpp') }}">
-                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Gerai Mall Pelayanan Publik (MPP)
-                        </h5>
-                        <h4 class="mb-0 fw-bold text-muted">{{ $total_pelatihan }}</h4>
-                        <p class="mb-0 text-muted">Mengikuti Survey</p>
-                    </a>
+                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Gerai Mall Pelayanan Publik (MPP)
+                    </h5>
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>Rating star</title>
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                        <!-- Usage for id_layanan = 3 -->
+                        @php
+                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 3);
+                        @endphp
+                        <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                        </p>
+                        <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                        <a href="#"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
+                            $total_unit3 }}
+                            Ulasan</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(4)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="color: #3a57e8;">
-                        <path opacity="0.4"
-                            d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                            fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                            fill="currentColor"></path>
-                    </svg>
+                    <a href="{{ url('/isi-survey/ptsp') }}">
+                        <button type="button"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
+                            Isi Survei
+                        </button>
+                    </a>
                 </div>
                 <div>
-                    <a href="{{ url('/isi-survey/wa-center') }}">
-                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Layanan Online (Whatsapp Center)
-                        </h5>
-                        <h4 class="mb-0 fw-bold text-muted">{{ $total_lpk }}</h4>
-                        <p class="mb-0 text-muted">Mengikuti Survey</p>
-                    </a>
+                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Layanan Online (Whatsapp Center) </h5>
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>Rating star</title>
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                        <!-- Usage for id_layanan = 4 -->
+                        @php
+                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 4);
+                        @endphp
+                        <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                        </p>
+                        <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                        <a href="#"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
+                            $total_unit4 }}
+                            Ulasan</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(5)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <svg width="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                        style="color: #000480;">
-                        <path opacity="0.4"
-                            d="M16.191 2H7.81C4.77 2 3 3.78 3 6.83V17.16C3 20.26 4.77 22 7.81 22H16.191C19.28 22 21 20.26 21 17.16V6.83C21 3.78 19.28 2 16.191 2Z"
-                            fill="currentColor"></path>
-                        <path fill-rule="evenodd" clip-rule="evenodd"
-                            d="M8.07996 6.6499V6.6599C7.64896 6.6599 7.29996 7.0099 7.29996 7.4399C7.29996 7.8699 7.64896 8.2199 8.07996 8.2199H11.069C11.5 8.2199 11.85 7.8699 11.85 7.4289C11.85 6.9999 11.5 6.6499 11.069 6.6499H8.07996ZM15.92 12.7399H8.07996C7.64896 12.7399 7.29996 12.3899 7.29996 11.9599C7.29996 11.5299 7.64896 11.1789 8.07996 11.1789H15.92C16.35 11.1789 16.7 11.5299 16.7 11.9599C16.7 12.3899 16.35 12.7399 15.92 12.7399ZM15.92 17.3099H8.07996C7.77996 17.3499 7.48996 17.1999 7.32996 16.9499C7.16996 16.6899 7.16996 16.3599 7.32996 16.1099C7.48996 15.8499 7.77996 15.7099 8.07996 15.7399H15.92C16.319 15.7799 16.62 16.1199 16.62 16.5299C16.62 16.9289 16.319 17.2699 15.92 17.3099Z"
-                            fill="currentColor"></path>
-                    </svg>
-                </div>
-                <div>
                     <a href="{{ url('/isi-survey/haji-online') }}">
-                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Informasi Haji Online
-                        </h5>
-                        <h4 class="mb-0 fw-bold text-muted">{{ $total_perusahaan }}</h4>
-                        <p class="mb-0 text-muted">Mengikuti Survey</p>
+                        <button type="button"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
+                            Isi Survei
+                        </button>
                     </a>
+                </div>
+                <div>
+                    <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Informasi Haji Online </h5>
+                    <div class="flex items-center">
+                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <title>Rating star</title>
+                            <path
+                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+                            </path>
+                        </svg>
+                        <!-- Usage for id_layanan = 2 -->
+                        @php
+                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 5);
+                        @endphp
+                        <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                        </p>
+                        <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                        <a href="#"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
+                            $total_unit5 }}
+                            Ulasan</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="row">
+
+
+{{-- <div class="row">
     <div class="col-lg-12 col-sm-12">
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive">
-
-                    <table id="skm" class="table table-bordered table-hover" style="width: 100%;">
+                    <table id="skm" class="table table-bordered table-hover" style="width: 100%;border-spacing: 0;">
                         <thead>
                             <tr>
-                                <th class="text-nowrap text-center" style="width: 50px;">No</th>
-                                <th class="text-nowrap text-center" style="width: 100px;">Unit Layanan</th>
-                                <th class="text-nowrap text-center">Periode</th>
-                                <th class="text-nowrap text-center">SKM</th>
+                                <th colspan="2" class="text-nowrap text-center" style="width: 100px;">
+                                    Riwayat Penilaian SKM
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @if (count($data_skm) > 0)
                             @foreach ($data_skm as $item)
                             <tr>
-                                <td>{{ $item->id_layanan }}</td>
-                                <td>{{ $item->namalayanan }}</td>
-                                <td>Triwulan {{ $item->triwulan }} Tahun {{ $item->tahun }}</td>
+                                <td colspan="2">{{ $item->id_layanan }}. {{ $item->namalayanan }}
+                            <tr>
                                 <td>
+                                    Triwulan {{ $item->triwulan }} Tahun {{ $item->tahun }}
+
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#skmModal{{$item->id_layanan}}" style="width: 100%">
+                                        data-target="#skmModal{{$item->id_layanan}}">
                                         {{ number_format($item->nilai_skm, 2) }}
                                     </button>
+
                                     <!-- Modal -->
                                     <div class="modal fade" id="skmModal{{$item->id_layanan}}" tabindex="-1"
                                         role="dialog" aria-labelledby="skmModalLabel" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
-
                                                 <div class="modal-header">
                                                     <h5 class="modal-title" id="skmModalLabel">
                                                         Detail SKM<br>
@@ -207,56 +294,75 @@
                                                                 <tr>
                                                                     <td align="center">[U1]</td>
                                                                     <td>Persyaratan</td>
-                                                                    <td align="center">{{ number_format($item->U1, 2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U1,
+                                                                        2) }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U2]</td>
                                                                     <td>Sistem, Mekanisme, dan Prosedur</td>
-                                                                    <td align="center">{{ number_format($item->U2, 2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U2,
+                                                                        2) }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U3]</td>
                                                                     <td>Waktu Penyelesaian</td>
-                                                                    <td align="center">{{ number_format($item->U3, 2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U3,
+                                                                        2) }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U4]</td>
                                                                     <td>Biaya/Tarif</td>
-                                                                    <td align="center">{{ number_format($item->U4,2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U4,2)
+                                                                        }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U5]</td>
                                                                     <td>Produk Spesifikasi Jenis Pelayanan</td>
-                                                                    <td align="center">{{ number_format($item->U5,2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U5,2)
+                                                                        }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U6]</td>
                                                                     <td>Kompetensi Pelaksana</td>
-                                                                    <td align="center">{{ number_format($item->U6,2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U6,2)
+                                                                        }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U7]</td>
                                                                     <td>Perilaku Pelaksana</td>
-                                                                    <td align="center">{{ number_format($item->U7,2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U7,2)
+                                                                        }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U8]</td>
                                                                     <td>Sarana dan prasarana</td>
-                                                                    <td align="center">{{ number_format($item->U8,2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U8,2)
+                                                                        }}
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td align="center">[U9]</td>
-                                                                    <td>Penanganan Pengaduan, Saran<br>dan Masukan
+                                                                    <td>Penanganan Pengaduan, Saran<br>dan
+                                                                        Masukan
                                                                     </td>
-                                                                    <td align="center">{{ number_format($item->U9,2) }}
+                                                                    <td align="center">{{
+                                                                        number_format($item->U9,2)
+                                                                        }}
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
@@ -265,21 +371,16 @@
                                                 </div>
 
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
                                                         data-target="#skmModal{{$item->id_layanan}}"
                                                         onclick="closeModal()">Close</button>
-
                                                 </div>
-
-
-
                                             </div>
                                         </div>
                                     </div>
-
-
-
                                 </td>
+                            </tr>
+                            </td>
                             </tr>
                             @endforeach
                             @else
@@ -293,10 +394,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="row">
-    <div class="col-lg-12 col-sm-12">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between w-100 mb-5">
@@ -323,16 +424,14 @@
                     </div>
                 </div>
 
-                <div id="chart">
+                <div id="chart"></div>
 
-                </div>
             </div>
         </div>
     </div>
 </div>
 
-
-
+<div id="graph"></div>
 
 @endsection
 
@@ -341,17 +440,18 @@
     function rupiah(number) {
     const formatNumbering = new Intl.NumberFormat("id-ID", {minimumFractionDigits: 0});
     return formatNumbering.format(number)
-}
+    }
 
-async function fiterByLayanan(id) {
+    async function fiterByLayanan(id) {
     const url = "{{ url('/') }}" + '/' + `dashboard-filter-layanan/${id}`;
     const response = await fetch(url);
     const json = await response.json();
     document.querySelector('#total_bulan_ini').innerHTML = json.total_bulan_ini;
     document.querySelector('#total_bulan_sebelumnya').innerHTML = json.total_bulan_sebelumnya;
-}
+    }
 
-var options = {
+    // CHART
+    var options = {
         series:  [
                 {
                     name: 'Layanan',
@@ -375,12 +475,7 @@ var options = {
             categories: ["PTSP", "PLHUT", "MPP", "WA Center", "Info Haji Online"]
         },
 
-        // tooltip: {
-        //     x: {
-        //     format: 'dd/MM/yy HH:mm'
-        //     },
-        // },
-        colors: [ // this array contains different color code for each data
+          colors: [ // this array contains different color code for each data
             "#FF0000",
             "#0bdd43",
             "#d900ff",
@@ -413,14 +508,7 @@ var options = {
                 }
             },
         },
-        // plotOptions: {
-        //     bar: {
-        //         distributed: true, // this line is mandatory
-        //         horizontal: false,
-        //         barHeight: '85%',
-        //     },
-        // },
-        dataLabels: {
+          dataLabels: {
             offsetY: -18,
             style: {
             colors: ['#222'],
@@ -442,39 +530,212 @@ var options = {
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
 
-function fetchDataGraphic() {
+        function fetchDataGraphic() {
     const url = "{{ url('/') }}" + '/' + `data-grafik-bar`;
     fetch(url)
         .then(response => response.json())
         .then(json => {
             chart.updateSeries(json);
         });
-}
+    }
+
+</script>
+
+{{-- <script>
+    const dataUrl = 'http://127.0.0.1:8000/get-skm/2023';
+
+        // Fetch the data from the provided URL
+        fetch(dataUrl)
+          .then(response => response.json())
+          .then(data => {
+            const seriesData = data.map(item => item.nilai_skm.toFixed(2));
+            const seriesNames = data.map(item => item.namalayanan);
+            const triwulanCategories = data.map(item => item.triwulan);
+            // Generate an array of colors for each series
+             const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00'];
+
+
+            var options = {
+              series: seriesNames.map((name, index) => ({
+                name: name,
+                data: [seriesData[index]]
+              })),
+              chart: {
+                height: 350,
+                type: 'line',
+                dropShadow: {
+                  enabled: true,
+                  color: '#000',
+                  top: 18,
+                  left: 7,
+                  blur: 10,
+                  opacity: 0.2
+                },
+                toolbar: {
+                  show: false
+                }
+              },
+              colors: colors.slice(0, seriesNames.length), // Use colors for each series
+              dataLabels: {
+                enabled: false,
+              },
+              stroke: {
+                curve: 'straight'
+              },
+              title: {
+                text: 'SKM Tahun 2023',
+                align: 'left'
+              },
+              grid: {
+                borderColor: '#e7e7e7',
+                row: {
+                  colors: ['#f3f3f3', 'transparent'],
+                  opacity: 0.5
+                },
+              },
+              markers: {
+                shapes: 'diamond',
+                size: 6
+              },
+              xaxis: {
+                categories: triwulanCategories,
+                title: {
+                  text: 'Triwulan'
+                }
+              },
+              yaxis: {
+            title: {
+            text: 'SKM'
+            },
+             min: 0,
+            max: 4,
+             tickAmount: 4,
+            labels: {
+            formatter: value => value.toFixed(2) // Format y-axis labels to remove decimal places
+             }
+            },
+              legend: {
+                show: false // Hide the legend
+              }
+            };
+
+            var graph = new ApexCharts(document.querySelector("#graph"), options);
+            graph.render();
+          })
+          .catch(error => console.log('Error:', error));
+</script> --}}
+
+<script>
+    const dataUrl = 'http://127.0.0.1:8000/get-skm/' + new Date().getFullYear();
+
+    fetch(dataUrl)
+      .then(response => response.json())
+      .then(data => {
+        const uniqueNames = [...new Set(data.map(item => item.namalayanan))];
+        const triwulans = [...new Set(data.map(item => item.triwulan))];
+        const colors = ['#FF0000', '#00FF00', '#0000FF', '#FF00FF', '#FFFF00'];
+
+        const seriesData = uniqueNames.map(name => {
+          const series = {
+            name: name,
+            data: []
+          };
+
+          triwulans.forEach(triwulan => {
+            const matchingEntry = data.find(item => item.namalayanan === name && item.triwulan === triwulan);
+            if (matchingEntry) {
+              series.data.push(matchingEntry.nilai_skm.toFixed(2));
+            } else {
+              series.data.push(null);
+            }
+          });
+
+          return series;
+        });
+
+        var options = {
+          series: seriesData,
+          chart: {
+            height: 350,
+            type: 'line',
+            dropShadow: {
+              enabled: true,
+              color: '#000',
+              top: 18,
+              left: 7,
+              blur: 10,
+              opacity: 0.2
+            },
+            toolbar: {
+              show: false
+            }
+          },
+          colors: colors.slice(0, uniqueNames.length),
+          dataLabels: {
+            enabled: false,
+          },
+          stroke: {
+            curve: 'straight'
+          },
+          title: {
+            text: 'Grafik Survei Kepuasan Masyarakat Tahun ' + new Date().getFullYear(),
+            align: 'center'
+          },
+          grid: {
+            borderColor: '#e7e7e7',
+            row: {
+              colors: ['#f3f3f3', 'transparent'],
+              opacity: 0.5
+            },
+          },
+          markers: {
+            size: 7
+          },
+          xaxis: {
+            type: 'category',
+            categories: triwulans.map(triwulan => 'Triwulan ' + triwulan),
+          },
+          yaxis: {
+            title: {
+              text: 'SKM'
+            },
+            min: 0,
+            max: 4,
+            tickAmount: 4,
+            labels: {
+              formatter: value => value.toFixed(2)
+            }
+          },
+          legend: {
+            show: true,
+            position: 'top'
+          }
+        };
+
+        var graph = new ApexCharts(document.querySelector("#graph"), options);
+        graph.render();
+      })
+      .catch(error => console.log('Error:', error));
+</script>
 
 
 
 
-$(document).ready(function() {
-    chart.render();
-    fetchDataGraphic();
-    $('button[data-target^="#skmModal"]').on('click', function() {
+
+<script>
+    $(document).ready(
+        function() {
+        chart.render();
+
+        fetchDataGraphic();
+        $('button[data-target^="#skmModal"]').on('click', function() {
             var target = $(this).attr('data-target');
             $(target).modal('show');
         });
-    $('button[data-target^="#skmModal"]').on('click', function() {
-        var target = $(this).attr('data-target');
+        $('button[data-target^="#skmModal"]').on('click', function() {
+            var target = $(this).attr('data-target');
             $(target).modal('hide');
-    });
-
-});
-
-
- $(document).ready(function(){
-
-});
-
-
-
-
+        });
+        });
 </script>
 @endsection

@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SKM</title>
+    <title>SKM Kankemenag Kab. Sragen</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.ico') }}" />
@@ -23,6 +23,7 @@
 
     <!-- Customizer Css -->
     <link rel="stylesheet" href="{{ asset('assets/css/customizer.min.css') }}" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.css" rel="stylesheet" />
 
     <style>
         html,
@@ -61,15 +62,16 @@
         <div class="position-relative iq-banner">
             @include('layouts.navbar')
 
-            <div class="iq-navbar-header" style="height: 215px;">
-                <div class="container-fluid iq-container">
+            <div class="iq-navbar-header" style="height: 215px; padding-bottom: 0px;">
+                <div class="container iq-container">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="flex-wrap d-flex justify-content-between align-items-center">
                                 <div>
-                                    <h1>Survey Kepuasan Masyarakat</h1>
-                                    <h2>Kantor Kementerian Agama Kabupaten Sragen</h2>
-                                    <p>Partisipasi anda sangat kami perlukan untuk menjadi lebih baik !</p>
+                                    <h1 style="font-size: 30px; font-weight: bold;">Survey Kepuasan Masyarakat</h1>
+                                    <h2 style="font-size: 20px;">Kantor Kementerian Agama Kabupaten Sragen</h2>
+                                    <p style="font-size: 10px; margin-bottom: 30px;">Partisipasi anda sangat kami
+                                        perlukan untuk menjadi lebih baik !</p>
                                 </div>
                             </div>
                         </div>
@@ -87,19 +89,17 @@
         </div>
 
 
+
     </main>
     <!-- Wrapper End-->
 
 
     <!-- Library Bundle Script -->
     <script src="{{ asset('assets/js/core/libs.min.js') }}"></script>
-
     <!-- External Library Bundle Script -->
     <script src="{{ asset('assets/js/core/external.min.js') }}"></script>
-
     <!-- App Script -->
     <script src="{{ asset('assets/js/hope-ui.js') }}" defer></script>
-
     <script src="{{ asset('jquery-3.6.1.min.js') }}"></script>
     <script>
         $(document).ready(function() {
@@ -111,6 +111,7 @@
 			}
 		});
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
 
     @yield('script')
 </body>

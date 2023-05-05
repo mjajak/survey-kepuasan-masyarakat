@@ -13,6 +13,7 @@ Route::get('/auth/logout', [AuthController::class, 'logout']);
 
 // Halaman Publik
 Route::get('/', [DashboardController::class, 'index']);
+Route::get('/riwayat-skm', [DashboardController::class, 'riwayat']);
 Route::get('/data-grafik-bar', [DashboardController::class, 'dataGrafikBar']);
 Route::get('/dashboard-filter-layanan/{id_layanan}', [DashboardController::class, 'filterByLayanan']);
 
@@ -23,3 +24,4 @@ Route::prefix('isi-survey')->group(function () {
 
 // API SKM
 Route::get('/get-skm/{year}', [KuesionerContract::class, 'getHasilSurveyTahun'])->name('skm.get');
+Route::get('/get-skm/', [KuesionerContract::class, 'getHasilSurveyTahun'])->name('skm.get');
