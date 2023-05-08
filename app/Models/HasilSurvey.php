@@ -49,7 +49,8 @@ class HasilSurvey extends Model
                 DB::raw('AVG(CASE WHEN unsur = "U6" THEN penilaian ELSE NULL END) AS U6'),
                 DB::raw('AVG(CASE WHEN unsur = "U7" THEN penilaian ELSE NULL END) AS U7'),
                 DB::raw('AVG(CASE WHEN unsur = "U8" THEN penilaian ELSE NULL END) AS U8'),
-                DB::raw('AVG(CASE WHEN unsur = "U9" THEN penilaian ELSE NULL END) AS U9')
+                DB::raw('AVG(CASE WHEN unsur = "U9" THEN penilaian ELSE NULL END) AS U9'),
+                DB::raw('COUNT(DISTINCT id_responden) AS `jumlah_responden`')
             ])
             ->whereYear('created_at', '=', $year)
             ->groupBy('id_layanan', 'namalayanan', 'triwulan', 'tahun');
@@ -69,7 +70,8 @@ class HasilSurvey extends Model
                 'U7',
                 'U8',
                 'U9',
-                DB::raw('(U1+U2+U3+U4+U5+U6+U7+U8+U9)*1/9 AS nilai_skm')
+                DB::raw('(U1+U2+U3+U4+U5+U6+U7+U8+U9)*1/9 AS nilai_skm'),
+                'jumlah_responden'
             )
             ->fromSub($subquery, 'subquery')
             ->orderBy('tahun')

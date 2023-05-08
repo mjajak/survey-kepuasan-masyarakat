@@ -66,13 +66,15 @@
                         $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 1);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' :
+                            'Belum Diulas'
+                            }}
                         </p>
 
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                         <a href="#"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $total_unit1 }}
+                            $filteredData1->jumlah_responden }}
                             Ulasan</a>
                     </div>
                 </div>
@@ -80,10 +82,10 @@
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(2)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <a href="{{ url('/isi-survey/ptsp') }}">
+                    <a href="{{ url('/isi-survey/plhut') }}">
                         <button type="button"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
                             Isi Survei
@@ -106,12 +108,12 @@
                         $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 2);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas' }}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                         <a href="#"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $total_unit2 }}
+                            $filteredData1->jumlah_responden }}
                             Ulasan</a>
                     </div>
                 </div>
@@ -119,10 +121,10 @@
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(3)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <a href="{{ url('/isi-survey/ptsp') }}">
+                    <a href="{{ url('/isi-survey/mpp') }}">
                         <button type="button"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
                             Isi Survei
@@ -145,12 +147,12 @@
                         $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 3);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas'}}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                         <a href="#"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $total_unit3 }}
+                            $filteredData1->jumlah_responden }}
                             Ulasan</a>
                     </div>
                 </div>
@@ -158,10 +160,10 @@
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(4)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
-                    <a href="{{ url('/isi-survey/ptsp') }}">
+                    <a href="{{ url('/isi-survey/wa-center') }}">
                         <button type="button"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md shadow w-full">
                             Isi Survei
@@ -183,12 +185,12 @@
                         $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 4);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas' }}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                         <a href="#"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $total_unit4 }}
+                            $filteredData1->jumlah_responden }}
                             Ulasan</a>
                     </div>
                 </div>
@@ -196,7 +198,7 @@
         </div>
     </div>
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
+        <div class="card" onclick="fiterByLayanan(5)" style="cursor: pointer;">
             <div class="card-body d-flex align-items-center" style="height: 120px;">
                 <div class="me-3 text-primary">
                     <a href="{{ url('/isi-survey/haji-online') }}">
@@ -221,12 +223,12 @@
                         $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 5);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
-                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2) : 'Belum Ada Ulasan.' }}
+                            {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas' }}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                         <a href="#"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $total_unit5 }}
+                            $filteredData1->jumlah_responden }}
                             Ulasan</a>
                     </div>
                 </div>
@@ -235,7 +237,7 @@
     </div>
 </div>
 
-<div id="graph"></div>
+<div id="graphRiwayatSKM"></div>
 {{-- <div class="row">
     <div class="col-lg-12 col-sm-12">
         <div class="card">
@@ -414,8 +416,6 @@
 </div>
 <div id="chart"></div>
 
-
-
 @endsection
 
 @section('script')
@@ -512,7 +512,6 @@
     };
 
     var chart = new ApexCharts(document.querySelector("#chart"), options);
-
         function fetchDataGraphic() {
     const url = "{{ url('/') }}" + '/' + `data-grafik-bar`;
     fetch(url)
@@ -521,7 +520,6 @@
             chart.updateSeries(json);
         });
     }
-
 </script>
 
 {{-- <script>
@@ -610,7 +608,7 @@
 
 <script>
     const dataUrl = '{{ url('/') }}/get-skm/' + new Date().getFullYear();
-
+    console.log('url:'+dataUrl);
     fetch(dataUrl)
       .then(response => response.json())
       .then(data => {
@@ -627,12 +625,12 @@
           triwulans.forEach(triwulan => {
             const matchingEntry = data.find(item => item.namalayanan === name && item.triwulan === triwulan);
             if (matchingEntry) {
-              series.data.push(matchingEntry.nilai_skm.toFixed(2));
+                series.data.push(matchingEntry.nilai_skm !== null ? matchingEntry.nilai_skm.toFixed(2) : null);
             } else {
               series.data.push(null);
             }
           });
-
+          console.log(series);
           return series;
         });
 
@@ -686,7 +684,7 @@
             max: 4,
             tickAmount: 4,
             labels: {
-              formatter: value => value.toFixed(2)
+                formatter: value => (value !== null ? value.toFixed(2) : null)
             }
           },
           legend: {
@@ -695,22 +693,18 @@
           }
         };
 
-        var graph = new ApexCharts(document.querySelector("#graph"), options);
+        var graph = new ApexCharts(document.querySelector("#graphRiwayatSKM"), options);
         graph.render();
-      })
+
+    })
       .catch(error => console.log('Error:', error));
 </script>
-
-
-
-
 
 <script>
     $(document).ready(
         function() {
-        chart.render();
-
         fetchDataGraphic();
+        chart.render();
         $('button[data-target^="#skmModal"]').on('click', function() {
             var target = $(this).attr('data-target');
             $(target).modal('show');

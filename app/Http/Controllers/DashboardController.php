@@ -29,7 +29,7 @@ final class DashboardController extends Controller
 
         $total_bulan_sebelumnya = DB::table('tbl_responden')
             ->whereRaw("DATE(created_at) BETWEEN '$date_from_format' AND '$date_to_format'")
-            ->where('id_layanan', 1)
+            // ->where('id_layanan', 1)
             ->count();
 
         $bulan_ini_from = date('Y-m') . '-01';
@@ -37,7 +37,7 @@ final class DashboardController extends Controller
 
         $total_bulan_ini = DB::table('tbl_responden')
             ->whereRaw("DATE(created_at) BETWEEN '$bulan_ini_from' AND '$bulan_ini_to'")
-            ->where('id_layanan', 1)
+            // ->where('id_layanan', 1)
             ->count();
 
         $total_mengikuti_survey = $total_ak1 + $total_rekom_passport + $total_pelatihan + $total_lpk + $total_perusahaan;
