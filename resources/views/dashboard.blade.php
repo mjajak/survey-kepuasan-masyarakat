@@ -22,11 +22,6 @@
 
 @section('content')
 
-
-
-
-
-
 <div class="row">
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
         <div class="card" onclick="fiterByLayanan(1)" style="cursor: pointer;">
@@ -240,7 +235,7 @@
     </div>
 </div>
 
-
+<div id="graph"></div>
 {{-- <div class="row">
     <div class="col-lg-12 col-sm-12">
         <div class="card">
@@ -396,42 +391,30 @@
     </div>
 </div> --}}
 
-<div class="row">
-    <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex justify-content-between w-100 mb-5">
-                    <div>
-                        <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Total Mengikuti Survey</h5>
-                        <h4 class="fw-bold text-muted">{{ $total_mengikuti_survey }}</h4>
-                    </div>
-                    <div class="d-flex">
-                        <div class="me-4 px-3 py-2 rounded" style="width: 205px; background-color: #d8ddfa;">
-                            <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Bulan Ini :</h5>
-                            <h4 class="mb-0 fw-bold text-muted" id="total_bulan_ini">{{ $total_bulan_ini }}</h4>
-                        </div>
-                        <div class="px-3 py-2 rounded" style="width: 205px; background-color: #d8ddfa;">
-                            <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Bulan Sebelumnya :</h5>
-                            <h4 class="mb-0 fw-bold text-muted" id="total_bulan_sebelumnya">{{
-                                $total_bulan_sebelumnya
-                                }}</h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div class="text-muted">
-                        {{ date('d F Y') }}
-                    </div>
-                </div>
-
-                <div id="chart"></div>
-
+<div class="card">
+    <div class="card-body">
+        <div class="d-flex flex-wrap" style="margin: -10px;">
+            <div class="flex-fill mb-3 px-3 py-2 rounded"
+                style="background-color: #e8f48c; flex-basis: 33.33%; margin: 10px;">
+                <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Total Mengikuti Survey :</h5>
+                <h4 class="fw-bold text-muted">{{ $total_mengikuti_survey }}</h4>
+            </div>
+            <div class="flex-fill mb-3 px-3 py-2 rounded"
+                style="background-color: #d8ddfa; flex-basis: 33.33%; margin: 10px;">
+                <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Bulan Ini :</h5>
+                <h4 class="mb-0 fw-bold text-muted" id="total_bulan_ini">{{ $total_bulan_ini }}</h4>
+            </div>
+            <div class="flex-fill mb-3 px-3 py-2 rounded"
+                style="background-color: #d8ddfa; flex-basis: 33.33%; margin: 10px;">
+                <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Bulan Lalu :</h5>
+                <h4 class="mb-0 fw-bold text-muted" id="total_bulan_sebelumnya">{{ $total_bulan_sebelumnya }}</h4>
             </div>
         </div>
     </div>
 </div>
+<div id="chart"></div>
 
-<div id="graph"></div>
+
 
 @endsection
 
@@ -626,7 +609,7 @@
 </script> --}}
 
 <script>
-    const dataUrl = 'http://127.0.0.1:8000/get-skm/' + new Date().getFullYear();
+    const dataUrl = '{{ url('/') }}/get-skm/' + new Date().getFullYear();
 
     fetch(dataUrl)
       .then(response => response.json())
