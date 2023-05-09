@@ -72,10 +72,25 @@
                         </p>
 
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#"
-                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $filteredData1->jumlah_responden }}
-                            Ulasan</a>
+                        <a href="#modal-ulasan"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                            data-bs-toggle="modal">{{ $filteredData1->jumlah_responden }} Ulasan</a>
+
+                        {{-- MODAL --}}
+                        <div class="modal fade" id="modal-ulasan" aria-labelledby="modal-ulasan" tabindex="-1"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-body" style="overflow-y: auto;">
+                                        <!-- Modal content goes here -->
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
@@ -236,6 +251,8 @@
         </div>
     </div>
 </div>
+
+
 
 <div id="graphRiwayatSKM"></div>
 {{-- <div class="row">
@@ -400,6 +417,8 @@
                 style="background-color: #e8f48c; flex-basis: 33.33%; margin: 10px;">
                 <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Total Mengikuti Survey :</h5>
                 <h4 class="fw-bold text-muted">{{ $total_mengikuti_survey }}</h4>
+
+
             </div>
             <div class="flex-fill mb-3 px-3 py-2 rounded"
                 style="background-color: #d8ddfa; flex-basis: 33.33%; margin: 10px;">
