@@ -21,6 +21,18 @@
 @endsection
 
 @section('content')
+{{-- {{ $ulasan }} --}}
+@php
+$starIcon = '<svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
+    xmlns="http://www.w3.org/2000/svg">
+    <title>Rating star</title>
+    <path
+        d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
+    </path>
+</svg>';
+@endphp
+
+
 
 <div class="row">
     <div class="col-xl-4 col-lg-6 col-md-6 col-xs-12">
@@ -39,58 +51,113 @@
                         (PTSP)
                     </h5>
                     <div class="flex items-center">
-                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Rating star</title>
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                            </path>
-                        </svg>
+                        {!! $starIcon !!}
 
                         @php
                         function getFilteredData($data_skm, $currentTriwulan, $currentYear, $id_layanan) {
                         return collect($data_skm)->firstWhere(function ($item) use ($currentTriwulan, $currentYear,
                         $id_layanan) {
-                        return $item->triwulan === $currentTriwulan && $item->tahun === $currentYear &&
+                        return $item->triwulan === getCurrentQuarter() && $item->tahun === getCurrentYear() &&
                         $item->id_layanan === $id_layanan;
                         });
                         }
 
-                        $currentTriwulan = intval(ceil(date('n') / 3));
-                        $currentYear = intval(date('Y'));
+                        function filterUlasanByLayanan($ulasan, $id_layanan)
+                        {
+                        $filteredUlasan = $ulasan->filter(function ($item) use ($id_layanan) {
+                        return $item->id_layanan == $id_layanan &&
+                        $item->created_at->year == date('Y') &&
+                        getQuarterFromDate($item->created_at) == getCurrentQuarter();
+                        })->sortBy('id');
+
+                        return $filteredUlasan;
+                        }
+
+
+                        function getQuarterFromDate($date)
+                        {
+                        return intval(ceil($date->month / 3));
+                        }
+
+                        function getCurrentQuarter()
+                        {
+                        return intval(ceil(date('n') / 3));
+                        }
+
+                        function getCurrentYear()
+                        { return intval(date('Y'));
+                        }
 
                         @endphp
 
                         <!-- Usage for id_layanan = 1 -->
                         @php
-                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 1);
+                        $filteredData1 = getFilteredData($data_skm, getCurrentQuarter(), getCurrentYear(), 1);
+                        $filteredUlasan = filterUlasanByLayanan($ulasan, 1);
+                        // $filteredUlasan1 = getFilteredUlasan($data_skm, $currentTriwulan, $currentYear, 1);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                             {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' :
                             'Belum Diulas'
                             }}
                         </p>
-
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#modal-ulasan"
+                        <a href="#modal-ulasan1"
                             class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
-                            data-bs-toggle="modal">{{ $filteredData1->jumlah_responden }} Ulasan</a>
-
+                            data-bs-toggle="modal">{{ $filteredData1 ? $filteredData1->jumlah_responden : 0 }}
+                            Ulasan</a>
                         {{-- MODAL --}}
-                        <div class="modal fade" id="modal-ulasan" aria-labelledby="modal-ulasan" tabindex="-1"
+                        <div class="modal fade" id="modal-ulasan1" aria-labelledby="modal-ulasan1" tabindex="-1"
                             aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable">
                                 <div class="modal-content">
+                                    <div class="modal-header d-flex align-items-center">
+                                        <div class="col-10">
+                                            <h5 class="modal-title"><b>Ulasan Masyarakat</b></h5>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">x</button>
+                                        </div>
+                                    </div>
                                     <div class="modal-body" style="overflow-y: auto;">
                                         <!-- Modal content goes here -->
 
+                                        @foreach ($filteredUlasan as $ulasanItem)
+                                        <div>
+                                            <div class="flex items-center">
+                                                <h5> {{ $ulasanItem->nama_responden }}</h5>
+                                                [ {!! $starIcon !!} {{ $ulasanItem->penilaian }}/4.00 ]
+                                            </div>
+                                            @if($ulasanItem->penilaian <= 1.75) <blockquote
+                                                style="border-left: 5px solid red; padding-left: 10px;">
+                                                Layanan Tidak Baik
+                                                @elseif($ulasanItem->penilaian <= 2.50) <blockquote
+                                                    style="border-left: 5px solid orange; padding-left: 10px;">
+                                                    Layanan Kurang Baik @elseif($ulasanItem->penilaian <= 3.25)
+                                                        <blockquote
+                                                        style="border-left: 5px solid blue; padding-left: 10px;">
+                                                        Layanan Baik
+                                                        @else
+                                                        <blockquote
+                                                            style="border-left: 5px solid green; padding-left: 10px;">
+                                                            Layanan Sangat Baik
+                                                            @endif
+                                                            {{ !$ulasanItem->ulasan ? '' : ': '.$ulasanItem->ulasan }}
+                                                        </blockquote>
+                                                        <small style="font-size: 50%">diulas pada : {{
+                                                            $ulasanItem->created_at
+                                                            }}</small>
+                                                        <hr>
+                                                        {{-- Display other properties of $ulasanItem as needed
+                                                        --}}
+                                        </div>
+
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 </div>
             </div>
@@ -111,25 +178,72 @@
                     <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pusat Layanan Haji dan Umrah Terpadu (PLHUT)
                     </h5>
                     <div class="flex items-center">
-                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Rating star</title>
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                            </path>
-                        </svg>
+                        {!! $starIcon !!}
                         <!-- Usage for id_layanan = 2 -->
                         @php
-                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 2);
+                        $filteredData1 = getFilteredData($data_skm, getCurrentQuarter(), getCurrentYear(), 2);
+                        $filteredUlasan = filterUlasanByLayanan($ulasan, 2);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                             {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas' }}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#"
-                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $filteredData1->jumlah_responden }}
+                        <a href="#modal-ulasan2"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                            data-bs-toggle="modal">{{ $filteredData1 ? $filteredData1->jumlah_responden : 0 }}
                             Ulasan</a>
+
+                        {{-- MODAL --}}
+                        <div class="modal fade" id="modal-ulasan2" aria-labelledby="modal-ulasan2" tabindex="-1"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header d-flex align-items-center">
+                                        <div class="col-10">
+                                            <h5 class="modal-title"><b>Ulasan Masyarakat</b></h5>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">x</button>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body" style="overflow-y: auto;">
+                                        <!-- Modal content goes here -->
+                                        @foreach ($filteredUlasan as $ulasanItem)
+                                        <div>
+                                            <div class="flex items-center">
+                                                <h5> {{ $ulasanItem->nama_responden }}</h5>
+                                                [ {!! $starIcon !!} {{ $ulasanItem->penilaian }}/4.00 ]
+                                            </div>
+                                            @if($ulasanItem->penilaian <= 1.75) <blockquote
+                                                style="border-left: 5px solid red; padding-left: 10px;">
+                                                Layanan Tidak Baik
+                                                @elseif($ulasanItem->penilaian <= 2.50) <blockquote
+                                                    style="border-left: 5px solid orange; padding-left: 10px;">
+                                                    Layanan Kurang Baik @elseif($ulasanItem->penilaian <= 3.25)
+                                                        <blockquote
+                                                        style="border-left: 5px solid blue; padding-left: 10px;">
+                                                        Layanan Baik
+                                                        @else
+                                                        <blockquote
+                                                            style="border-left: 5px solid green; padding-left: 10px;">
+                                                            Layanan Sangat Baik
+                                                            @endif
+                                                            {{ !$ulasanItem->ulasan ? '' : ': '.$ulasanItem->ulasan }}
+                                                        </blockquote>
+                                                        <small style="font-size: 50%">diulas pada : {{
+                                                            $ulasanItem->created_at
+                                                            }}</small>
+                                                        <hr>
+                                                        {{-- Display other properties of $ulasanItem as needed
+                                                        --}}
+                                        </div>
+
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -150,25 +264,77 @@
                     <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Gerai Mall Pelayanan Publik (MPP)
                     </h5>
                     <div class="flex items-center">
-                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Rating star</title>
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                            </path>
-                        </svg>
+                        {!! $starIcon !!}
                         <!-- Usage for id_layanan = 3 -->
                         @php
-                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 3);
+                        $filteredData1 = getFilteredData($data_skm, getCurrentQuarter(), getCurrentYear(), 3);
+                        $filteredUlasan = filterUlasanByLayanan($ulasan, 3);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                             {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas'}}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
+                        <!-- Button to trigger the modal -->
                         <a href="#"
-                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $filteredData1->jumlah_responden }}
-                            Ulasan</a>
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                            data-bs-toggle="modal" data-bs-target="#modal-ulasan3">
+                            {{ $filteredData1 ? $filteredData1->jumlah_responden : 0 }} Ulasan
+                        </a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="modal-ulasan3" tabindex="-1" aria-labelledby="modal-ulasan3-label"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header d-flex align-items-center">
+                                        <div class="col-10">
+                                            <h5 class="modal-title"><b>Ulasan Masyarakat</b></h5>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">x</button>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-body" style="overflow-y: auto;">
+
+                                        @foreach ($filteredUlasan as $ulasanItem)
+                                        <div>
+                                            <div class="flex items-center">
+                                                <h5>{{ $ulasanItem->nama_responden }}</h5>
+                                                [ {!! $starIcon !!} {{ $ulasanItem->penilaian }}/4.00 ]
+                                            </div>
+                                            @if ($ulasanItem->penilaian <= 1.75) <blockquote
+                                                style="border-left: 5px solid red; padding-left: 10px;">
+                                                Layanan Tidak Baik
+                                                @elseif ($ulasanItem->penilaian <= 2.50) <blockquote
+                                                    style="border-left: 5px solid orange; padding-left: 10px;">
+                                                    Layanan Kurang Baik
+                                                    @elseif ($ulasanItem->penilaian <= 3.25) <blockquote
+                                                        style="border-left: 5px solid blue; padding-left: 10px;">
+                                                        Layanan Baik
+                                                        @else
+                                                        <blockquote
+                                                            style="border-left: 5px solid green; padding-left: 10px;">
+                                                            Layanan Sangat Baik
+                                                            @endif
+                                                            {{ !$ulasanItem->ulasan ? '' : ': '.$ulasanItem->ulasan }}
+                                                        </blockquote>
+                                                        <small style="font-size: 50%">diulas pada: {{
+                                                            $ulasanItem->created_at }}</small>
+                                                        <hr>
+                                                        {{-- Display other properties of $ulasanItem as needed --}}
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
                     </div>
                 </div>
             </div>
@@ -188,25 +354,73 @@
                 <div>
                     <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Layanan Online (Whatsapp Center) </h5>
                     <div class="flex items-center">
-                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Rating star</title>
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                            </path>
-                        </svg>
+                        {!! $starIcon !!}
                         <!-- Usage for id_layanan = 4 -->
                         @php
-                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 4);
+                        $filteredData1 = getFilteredData($data_skm, getCurrentQuarter(), getCurrentYear(), 4);
+                        $filteredUlasan = filterUlasanByLayanan($ulasan, 4);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                             {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas' }}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#"
-                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $filteredData1->jumlah_responden }}
+                        <a href="#modal-ulasan4"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                            data-bs-toggle="modal">{{ $filteredData1 ? $filteredData1->jumlah_responden : 0 }}
                             Ulasan</a>
+
+                        {{-- MODAL --}}
+                        <div class="modal fade" id="modal-ulasan4" aria-labelledby="modal-ulasan4" tabindex="-1"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header d-flex align-items-center">
+                                        <div class="col-10">
+                                            <h5 class="modal-title"><b>Ulasan Masyarakat</b></h5>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">x</button>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body" style="overflow-y: auto;">
+                                        <!-- Modal content goes here -->
+
+                                        @foreach ($filteredUlasan as $ulasanItem)
+                                        <div>
+                                            <div class="flex items-center">
+                                                <h5> {{ $ulasanItem->nama_responden }}</h5>
+                                                [ {!! $starIcon !!} {{ $ulasanItem->penilaian }}/4.00 ]
+                                            </div>
+                                            @if($ulasanItem->penilaian <= 1.75) <blockquote
+                                                style="border-left: 5px solid red; padding-left: 10px;">
+                                                Layanan Tidak Baik
+                                                @elseif($ulasanItem->penilaian <= 2.50) <blockquote
+                                                    style="border-left: 5px solid orange; padding-left: 10px;">
+                                                    Layanan Kurang Baik @elseif($ulasanItem->penilaian <= 3.25)
+                                                        <blockquote
+                                                        style="border-left: 5px solid blue; padding-left: 10px;">
+                                                        Layanan Baik
+                                                        @else
+                                                        <blockquote
+                                                            style="border-left: 5px solid green; padding-left: 10px;">
+                                                            Layanan Sangat Baik
+                                                            @endif
+                                                            {{ !$ulasanItem->ulasan ? '' : ': '.$ulasanItem->ulasan }}
+                                                        </blockquote>
+                                                        <small style="font-size: 50%">diulas pada : {{
+                                                            $ulasanItem->created_at
+                                                            }}</small>
+                                                        <hr>
+                                                        {{-- Display other properties of $ulasanItem as needed
+                                                        --}}
+                                        </div>
+
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -226,25 +440,73 @@
                 <div>
                     <h5 class="mb-0 fw-bold mb-1" style="font-size: 18px;">Pelayanan Informasi Haji Online </h5>
                     <div class="flex items-center">
-                        <svg aria-hidden="true" class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Rating star</title>
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z">
-                            </path>
-                        </svg>
+                        {!! $starIcon !!}
                         <!-- Usage for id_layanan = 2 -->
                         @php
-                        $filteredData1 = getFilteredData($data_skm, $currentTriwulan, $currentYear, 5);
+                        $filteredData1 = getFilteredData($data_skm, getCurrentQuarter(), getCurrentYear(), 5);
+                        $filteredUlasan = filterUlasanByLayanan($ulasan, 5);
                         @endphp
                         <p class="ml-2 text-sm font-bold text-gray-900 dark:text-white">
                             {{ $filteredData1 ? number_format($filteredData1->nilai_skm, 2).'/4.00' : 'Belum Diulas' }}
                         </p>
                         <span class="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
-                        <a href="#"
-                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white">{{
-                            $filteredData1->jumlah_responden }}
+                        <a href="#modal-ulasan5"
+                            class="text-sm font-medium text-gray-900 underline hover:no-underline dark:text-white"
+                            data-bs-toggle="modal">{{ $filteredData1 ? $filteredData1->jumlah_responden : 0 }}
                             Ulasan</a>
+
+                        {{-- MODAL --}}
+                        <div class="modal fade" id="modal-ulasan5" aria-labelledby="modal-ulasan5" tabindex="-1"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable">
+                                <div class="modal-content">
+                                    <div class="modal-header d-flex align-items-center">
+                                        <div class="col-10">
+                                            <h5 class="modal-title"><b>Ulasan Masyarakat</b></h5>
+                                        </div>
+                                        <div class="col-2 d-flex justify-content-end">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close">x</button>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body" style="overflow-y: auto;">
+                                        <!-- Modal content goes here -->
+
+                                        @foreach ($filteredUlasan as $ulasanItem)
+                                        <div>
+                                            <div class="flex items-center">
+                                                <h5> {{ $ulasanItem->nama_responden }}</h5>
+                                                [ {!! $starIcon !!} {{ $ulasanItem->penilaian }}/4.00 ]
+                                            </div>
+                                            @if($ulasanItem->penilaian <= 1.75) <blockquote
+                                                style="border-left: 5px solid red; padding-left: 10px;">
+                                                Layanan Tidak Baik
+                                                @elseif($ulasanItem->penilaian <= 2.50) <blockquote
+                                                    style="border-left: 5px solid orange; padding-left: 10px;">
+                                                    Layanan Kurang Baik @elseif($ulasanItem->penilaian <= 3.25)
+                                                        <blockquote
+                                                        style="border-left: 5px solid blue; padding-left: 10px;">
+                                                        Layanan Baik
+                                                        @else
+                                                        <blockquote
+                                                            style="border-left: 5px solid green; padding-left: 10px;">
+                                                            Layanan Sangat Baik
+                                                            @endif
+                                                            {{ !$ulasanItem->ulasan ? '' : ': '.$ulasanItem->ulasan }}
+                                                        </blockquote>
+                                                        <small style="font-size: 50%">diulas pada : {{
+                                                            $ulasanItem->created_at
+                                                            }}</small>
+                                                        <hr>
+                                                        {{-- Display other properties of $ulasanItem as needed
+                                                        --}}
+                                        </div>
+
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -434,6 +696,7 @@
     </div>
 </div>
 <div id="chart"></div>
+
 
 @endsection
 

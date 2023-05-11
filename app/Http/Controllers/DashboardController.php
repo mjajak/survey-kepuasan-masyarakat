@@ -7,12 +7,17 @@ use App\Models\HasilSurvey;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Models\Ulasan;
 
 final class DashboardController extends Controller
 {
     public function index()
     {
         $skm = HasilSurvey::getHasilSurveyTahun('2023')->toArray();
+        $ulasan = Ulasan::all();
+
+
+
         // $data_dashboard = Cache::remember('data_dashboard', $ttl=300, function () {
         $total_ak1 = DB::table('tbl_responden')->where('id_layanan', 1)->count();
         $total_rekom_passport = DB::table('tbl_responden')->where('id_layanan', 2)->count();
@@ -52,7 +57,8 @@ final class DashboardController extends Controller
             'total_bulan_ini' => number_format($total_bulan_ini),
             'total_bulan_sebelumnya' => number_format($total_bulan_sebelumnya),
             'total_mengikuti_survey' => number_format($total_mengikuti_survey),
-            'data_skm' => $skm
+            'data_skm' => $skm,
+            'ulasan' => $ulasan
         ];
 
         return view('dashboard', $data_dashboard);
@@ -64,6 +70,7 @@ final class DashboardController extends Controller
             HasilSurvey::getHasilSurveyTahun('2023')->toArray();
         return view('riwayatskm', $data_skm);
     }
+
 
     public function dataGrafikBar(): JsonResponse
     {
