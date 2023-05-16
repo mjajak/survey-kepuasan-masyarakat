@@ -12,13 +12,18 @@ interface KuesionerContract
         $usia,
         $pendidikan,
         $pekerjaan,
-        $id_layanan,
+        $id_layanan
     );
 
     public function addKuesioner(
         $id_responden,
         $id_layanan,
         array $answers
+    );
+
+    public function addUlasan(
+        $id_responden,
+        $ulasan
     );
 
     public function getHasilSurveyTahun($year);

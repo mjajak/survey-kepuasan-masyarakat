@@ -77,7 +77,8 @@ class KuesionerController extends Controller
             'pendidikan' => 'required|numeric',
             'pekerjaan' => 'required|numeric',
             'answers' => 'required|array',
-            'id_layanan' => 'required|numeric'
+            'id_layanan' => 'required|numeric',
+            'saran' => 'required|string|max:100|regex:/^[0-9a-zA-Z\s\.,?!\'"()]+$/'
         ]);
 
         DB::beginTransaction();
@@ -95,7 +96,12 @@ class KuesionerController extends Controller
             $add_kuesioner = $this->kuesionerService->addKuesioner(
                 $add_responden->id,
                 $add_responden->id_layanan,
-                $request->answers
+                $request->answers,
+            );
+
+            $add_ulasan = $this->kuesionerService->addUlasan(
+                $add_responden->id,
+                $request->saran
             );
 
             DB::commit();

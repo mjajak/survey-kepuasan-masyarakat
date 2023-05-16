@@ -14,8 +14,7 @@ final class DashboardController extends Controller
     public function index()
     {
         $skm = HasilSurvey::getHasilSurveyTahun('2023')->toArray();
-        $ulasan = Ulasan::all();
-
+        $ulasan = Ulasan::selectUlasan()->get();
 
 
         // $data_dashboard = Cache::remember('data_dashboard', $ttl=300, function () {

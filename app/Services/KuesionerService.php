@@ -6,27 +6,86 @@ namespace App\Services;
 
 use App\Models\Kuesioner;
 use App\Models\Responden;
+use App\Models\Ulasan;
 use Illuminate\Support\Facades\DB;
 use App\Contracts\KuesionerContract;
 use App\Models\HasilSurvey;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Arr;
 
 final class KuesionerService implements KuesionerContract
 {
+    // public function addResponden(
+    //     $nama_responden,
+    //     $jenis_kelamin,
+    //     $usia,
+    //     $pendidikan,
+    //     $pekerjaan,
+    //     $id_layanan
+    // ) {
+    //     // $response = Http::get('https://api.ipify.org?format=json');
+    //     $ip = $_SERVER['REMOTE_ADDR'];
+
+    //     // if ($response->ok()) {
+    //     // $data = $response->json();
+    //     // $ip = $data['ip'];
+
+    //     $locationResponse = Http::get("http://ip-api.com/json/{$ip}");
+    //     if ($locationResponse->ok()) {
+    //         $locationData = $locationResponse->json();
+    //         $country = $locationData['country'];
+    //     } else {
+    //         $country = 'Unknown'; // Set a default value or handle the error case
+    //     }
+
+    //     $responden = Responden::create([
+    //         'nama_responden' => $nama_responden,
+    //         'jenis_kelamin' => $jenis_kelamin,
+    //         'usia' => $usia,
+    //         'pendidikan' => $pendidikan,
+    //         'pekerjaan' => $pekerjaan,
+    //         'id_layanan' => $id_layanan,
+    //         'ip' => $ip,
+    //         'asal_negara' => $country
+    //     ]);
+
+    //     return $responden;
+    //     // }
+
+    //     // Handle error case
+    //     return null;
+    // }
+
     public function addResponden(
         $nama_responden,
         $jenis_kelamin,
         $usia,
         $pendidikan,
         $pekerjaan,
-        $id_layanan,
+        $id_layanan
     ) {
+        // $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = '36.68.8.79';
+        $locationResponse = Http::get("https://ipapi.co/{$ip}/json/");
+
+        if ($locationResponse->successful()) {
+            $locationData = $locationResponse->json();
+            // $country = $locationData['country_name'];
+            $country = Arr::has($locationData, 'country_name') ? $locationData['country_name'] : 'Unknown';
+        } else {
+            $country = 'Unknown';
+            // Set a default value or handle the error case
+        }
+
         $responden = Responden::create([
             'nama_responden' => $nama_responden,
             'jenis_kelamin' => $jenis_kelamin,
             'usia' => $usia,
             'pendidikan' => $pendidikan,
             'pekerjaan' => $pekerjaan,
-            'id_layanan' => $id_layanan
+            'id_layanan' => $id_layanan,
+            'ip' => $ip,
+            'asal_negara' => $country
         ]);
 
         return $responden;
@@ -58,6 +117,21 @@ final class KuesionerService implements KuesionerContract
         // dd($data_insert);
         // lebih baik gunakan query builder untuk performa lebih baik
         Kuesioner::insert($data_insert);
+    }
+
+    public function addUlasan(
+        $id_responden,
+        $ulasan
+    ) {
+        $data_insert[] = [
+            'id_responden' => $id_responden,
+            'ulasan' => $ulasan,
+            'status_ulasan' => 0
+        ];
+
+        // dd($data_insert);
+        // lebih baik gunakan query builder untuk performa lebih baik
+        Ulasan::insert($data_insert);
     }
 
     public function getListPagination()

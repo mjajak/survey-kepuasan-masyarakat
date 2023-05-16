@@ -46,11 +46,10 @@
         <h4 class="mb-0 card-title">{{ $namalayanan }}</h4>
     </div>
     <div class="card-body">
-        <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" id="btn-isi-survey"
-            data-bs-target="#modal-isi-survey">Isi Survey</button>
-
         {{-- Survey Question --}}
         @include('kuesioner.survey-question')
+        <button type="button" class="btn btn-primary mb-5" data-bs-toggle="modal" id="btn-isi-survey"
+            data-bs-target="#modal-isi-survey">Isi Survey</button>
     </div>
 </div>
 
@@ -129,13 +128,13 @@
     </div>
 </div>
 
-<section id="scroll-down" title="Scroll Down">
+{{-- <section id="scroll-down" title="Scroll Down">
     <svg width="50" viewBox="0 0 24 24" fill="currentColor" style="color: #229c57;" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
             d="M2 16.08V7.91C2 4.38 4.271 2 7.66 2H16.33C19.72 2 22 4.38 22 7.91V16.08C22 19.62 19.72 22 16.33 22H7.66C4.271 22 2 19.62 2 16.08ZM12.75 14.27V7.92C12.75 7.5 12.41 7.17 12 7.17C11.58 7.17 11.25 7.5 11.25 7.92V14.27L8.78 11.79C8.64 11.65 8.44 11.57 8.25 11.57C8.061 11.57 7.87 11.65 7.72 11.79C7.43 12.08 7.43 12.56 7.72 12.85L11.47 16.62C11.75 16.9 12.25 16.9 12.53 16.62L16.28 12.85C16.57 12.56 16.57 12.08 16.28 11.79C15.98 11.5 15.51 11.5 15.21 11.79L12.75 14.27Z"
             fill="currentColor"></path>
     </svg>
-</section>
+</section> --}}
 @endsection
 
 @section('script')
@@ -143,10 +142,11 @@
     function addKuesioner() {
         let respondenData = $('#form-isi-data').serialize();
         let kuesionerData = $('#form-isi-survey').serialize();
+        let saranData = $('#form-isi-saran').serialize();
 
-        console.log(respondenData);
-        console.log(kuesionerData);
-        console.log($('#id_layanan').val());
+        // console.log(respondenData);
+        // console.log(kuesionerData);
+        // console.log($('#id_layanan').val());
 
         $.ajax({
             url: "{{ url('isi-survey/add-kuesioner') }}",
@@ -157,10 +157,11 @@
             beforeSend: function() {
                 showLoading();
             },
-            data: respondenData + '&' + kuesionerData + '&id_layanan=' + $('#id_layanan').val(),
+            data: respondenData + '&' + kuesionerData + '&'+ saranData + '&id_layanan=' + $('#id_layanan').val(),
             success: function(response) {
                 $('#form-isi-data')[0].reset();
                 $('#form-isi-survey')[0].reset();
+                $('#form-isi-saran')[0].reset();
                 $("#survey-question").prop('hidden', true);
                 $('#btn-isi-survey').show();
                 Swal.fire({
@@ -192,24 +193,6 @@
 			$('html, body').animate({scrollTop : $(document).height()}, 350);
 			return false;
 		});
-
-        // $('#form-isi-survey').on('submit', function(e) {
-        //     e.preventDefault();
-
-        //     modal.hide();
-
-        //     $("#survey-question").prop('hidden', false);
-        //     $('#btn-isi-survey').hide();
-
-        //     // let nilaiKepuasan = $(`[name="nilai_kepuasan"]:checked`).val();
-        //     // console.log(nilaiKepuasan)
-
-        // });
-
-        // $('input[type=radio][name=nilai_kepuasan]').change(function() {
-        //     $('div.nilai-div').removeClass('bg-primary text-white')
-        //     $(this).parent('div').addClass('bg-primary text-white');
-        // });
 
         $.validator.setDefaults({
             debug: true,
@@ -268,6 +251,7 @@
                     minlength: 1,
                     maxlength: 2
                 }
+
             },
             messages: {
                 nama_responden: {
@@ -291,18 +275,42 @@
         });
 
         $('#form-isi-survey').validate({
-            submitHandler: function(form) {
-                addKuesioner();
-            },
-        });
+        submitHandler: function(form) {
+        $("#survey-question").prop('hidden', true);
+        $("#survey-saran").prop('hidden', false);
+        }});
 
-        $('[name^="answers"]').each(function() {
+       $('[name^="answers"]').each(function() {
             $(this).rules('add', {
                 required: true,
                 messages: {
                     required: "Harap pilih jawaban.",
                 }
             });
+        });
+
+
+        $.validator.addMethod("safeText", function(value, element) {
+            return this.optional(element) || /^[0-9a-zA-Z\s\.,?!'"()]+$/.test(value);
+        }, "Hanya diperbolehkan alphabet dan tanda baca!");
+
+        $("#form-isi-saran").validate({
+            submitHandler: function(form) {
+                addKuesioner();
+            },
+            rules: {
+                saran: {
+                    required: true,
+                    maxlength: 100,
+                    safeText: true
+                }
+            },
+            messages: {
+                saran: {
+                    required: 'Mohon saran / masukannya.. :)',
+                    maxlength: "Maksimal 100 karakter!."
+                }
+            }
         });
 
 
