@@ -1,7 +1,7 @@
 <table>
     <thead>
         <tr>
-            <th colspan="1">Jenis Pelayanan</th>
+            <th colspan="1">UPP</th>
             <th colspan="9">{{ $nama_layanan }}</th>
         </tr>
         <tr>
@@ -41,20 +41,21 @@
         @endphp
         @foreach ($respondens as $i => $responden)
         @php
-        $total_u1 += $responden[0]->nilai;
-        $total_u2 += $responden[1]->nilai;
-        $total_u3 += $responden[2]->nilai;
-        $total_u4 += $responden[3]->nilai;
-        $total_u5 += $responden[4]->nilai;
-        $total_u6 += $responden[5]->nilai;
-        $total_u7 += $responden[6]->nilai;
-        $total_u8 += $responden[7]->nilai;
-        $total_u9 += $responden[8]->nilai;
+        $total_u1 += isset($responden[0]) ? $responden[0]->nilai : 0;
+        $total_u2 += isset($responden[1]) ? $responden[1]->nilai : 0;
+        $total_u3 += isset($responden[2]) ? $responden[2]->nilai : 0;
+        $total_u4 += isset($responden[3]) ? $responden[3]->nilai : 0;
+        $total_u5 += isset($responden[4]) ? $responden[4]->nilai : 0;
+        $total_u6 += isset($responden[5]) ? $responden[5]->nilai : 0;
+        $total_u7 += isset($responden[6]) ? $responden[6]->nilai : 0;
+        $total_u8 += isset($responden[7]) ? $responden[7]->nilai : 0;
+        $total_u9 += isset($responden[8]) ? $responden[8]->nilai : 0;
         @endphp
         <tr>
-            <td align="center">{{ $loop->iteration }}</td>
+            <td align="center">{{ $loop->iteration }} ({{ isset($responden[0]) ? $responden[0]->id_responden : '' }})
+            </td>
             @foreach ($responden as $row)
-            <td align="center">{{ $row->nilai }}</td>
+            <td align="center">{{ isset($row->nilai) ? $row->nilai : '' }}</td>
             @endforeach
         </tr>
         @endforeach
